@@ -1,9 +1,0 @@
-Flask
-gunicorn
-google-cloud
-google-cloud-datacatalog
-google-cloud-pubsub
-google-cloud-bigquery
-avro-python3
-protobuf
-google-api-python-client

@@ -1,2 +1,0 @@
-SELECT sensitive_type, data_location, subject_location, ia_type 
-FROM $project_id.$dataset.ia_policy LIMIT 1000

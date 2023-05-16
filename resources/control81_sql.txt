@@ -1,2 +1,0 @@
-SELECT REPLACE(REPLACE(data_asset_name,".*",""),"*","") as data_asset_prefix
-FROM $project_id.$dataset.data_asset

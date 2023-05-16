@@ -1,8 +1,0 @@
-SELECT aiad.asset_name as aiad_asset_name,
-       MAX(ca.approval_date) as last_ca_approval_date,
-FROM $project_id.impact_assessment.asset_ia_details as aiad
-JOIN $project_id.entitlement_management.data_asset as da ON aiad.asset_name like concat(replace(da.data_asset_name, '*', ''), '%')
-JOIN $project_id.entitlement_management.use_purpose as up ON da.data_asset_id = up.data_asset_id
-JOIN $project_id.entitlement_management.consumer_agreement as ca ON up.use_id = ca.use_id
-GROUP BY aiad_asset_name
-     
