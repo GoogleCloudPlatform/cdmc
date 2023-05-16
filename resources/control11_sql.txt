@@ -1,0 +1,5 @@
+SELECT sensitive_category,
+       geographical_region,
+       retention_period_days,
+       expiration_action
+FROM $project_id.$dataset.retention_policy

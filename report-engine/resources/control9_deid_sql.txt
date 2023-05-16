@@ -1,0 +1,8 @@
+SELECT pm.sensitive_category,
+       pm.geographical_region as pm_geo,
+       dm.geographical_region as dm_geo, 
+       pdm as deid_method,
+       dm.platform_deid_method as default_deid_method
+FROM $project_id.$dataset.permitted_methods as pm,
+      UNNEST(pm.platform_deid_methods) as pdm
+LEFT JOIN $project_id.$dataset.default_methods as dm on pm.geographical_region= dm.geographical_region AND pm.sensitive_category=dm.sensitive_category

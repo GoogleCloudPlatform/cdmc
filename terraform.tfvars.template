@@ -1,0 +1,3 @@
+organization = "ORGANIZATION_ID"
+project = "PROJECT_ID"
+region = "GCP_REGION"
