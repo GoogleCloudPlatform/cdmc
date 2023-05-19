@@ -69,6 +69,12 @@ resource "google_project_iam_member" "project-bigquery-dataEditor" {
   member  = "serviceAccount:${google_service_account.sa-report-engine.email}"
 }
 
+resource "google_project_iam_member" "project-bigquery-jobUser" {
+  project = var.project
+  role    = "roles/bigquery.jobUser"
+  member  = "serviceAccount:${google_service_account.sa-report-engine.email}"
+}
+
 resource "google_project_iam_member" "project-pubsub-publisher" {
   project = var.project
   role    = "roles/pubsub.publisher"
