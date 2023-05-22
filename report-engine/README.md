@@ -71,12 +71,14 @@ It is recommended that Dataplex Catalog templates, Pub/Sub topics and BigQuery c
   
 ## Deployments from Secured Data Warehouse project or VPC Service Controls
 
-In case the deployment occurs in a deployment of Secure Data Warehouse [https://cloud.google.com/architecture/confidential-data-warehouse-blueprint], which uses VPC- Service Controls, or in a self deployed VPC-Service Control environment, consider the following aspects to be considered in the report-engine deployment:
+In case the deployment occurs in a deployment of [Secure Data Warehouse](https://cloud.google.com/architecture/confidential-data-warehouse-blueprint), which uses VPC- Service Controls, or in a self deployed VPC-Service Control environment, consider the following aspects to be considered in the report-engine deployment:
 
-- Evaluate and disable potential Organization Policies [https://cloud.google.com/resource-manager/docs/organization-policy/restricting-service-accounts] that blocks the creation of Service Accounts in the deployment project;
+- Evaluate and disable potential [Organization Policies](https://cloud.google.com/resource-manager/docs/organization-policy/restricting-service-accounts) that blocks the creation of Service Accounts in the deployment project;
 - Create an egress rule enabling the "sa-report-engine@" service account, created by Terraform, to access data assets from the projects to be scanned;
 - Create an Access Level, or update potential existing one, enabling the "sa-report-engine@" service account to access target deployment project/ data-governance;
-- Create an Access Level, or update potential existing one, enabling the "sa-report-engine@" service account to access the data confidential project;
+- Create an Access Level, or update potential existing one, enabling the "sa-report-engine@" service account to access the data confidential project.
+
+In case of Cloud Run deployment, potential Access Level modifications can be necessary, allowing deployments components, such as Cloud Build default Service Account or Pub/Sub default Service Account to BigQuery. This configurations change might be analyzed according to VPC-SC topology and definitions.
 
 
   
