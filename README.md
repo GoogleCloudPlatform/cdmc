@@ -9,6 +9,6 @@ Each component of the reference architecture has its own deployment guide. To de
 - [data ingestion](https://github.com/GoogleCloudPlatform/cdmc/blob/main/data-ingestion/README.md) 
 - [data scanning](https://github.com/GoogleCloudPlatform/cdmc/blob/main/data-scanning/README.md)  
 - data quality (Mose)
-- tagging(https://github.com/GoogleCloudPlatform/cdmc/blob/main/tagging/README.md)   
+- [tagging](https://github.com/GoogleCloudPlatform/cdmc/blob/main/tagging/README.md)   
 - [control detectors](https://github.com/GoogleCloudPlatform/cdmc/blob/main/control-detectors/README.md) 
 - reporting (Mark)
