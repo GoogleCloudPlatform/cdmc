@@ -14,7 +14,7 @@ This guide assumes that you have already completed the data ingestion deployment
 
 `pip install -r requirements.txt`
 
-4. Run the inspect datasets script:
+5. Run the inspect datasets script:
 
 `python inspect_datasets.py`
 

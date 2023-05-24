@@ -1,4 +1,4 @@
-create or replace view sdw-data-gov-b1927e-dd69.entitlement_management.information_schema_view as 
+create or replace view entitlement_management.information_schema_view as 
 select * from (
 select * from (
 SELECT
