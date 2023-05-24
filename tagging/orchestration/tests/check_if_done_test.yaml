@@ -1,0 +1,29 @@
+main:
+    params: [args]
+    steps:
+     - job_completion_init:
+         assign:
+           - tasks_completed: 0
+     - get_job_status:
+         call: http.post
+         args:
+           url: https://tag-engine-h5dcyzhzta-uc.a.run.app/get_job_status
+           headers:
+             oauth_token: ${args.oauth_token}
+           auth:
+             type: OIDC
+           body:
+             job_uuid: "b8c58678ef7111edb553ebd5bdaf14c8"
+         result: job_status
+     - check_if_done:
+         switch:
+            - condition: '${job_status.body.job_status != "SUCCESS" and job_status.body.tasks_completed > tasks_completed}'
+              next: wait_before_next_poll    
+            - condition: '${job_status.body.job_status == "SUCCESS" or job_status.body.tasks_completed == tasks_completed}'
+              return: ${job_status.body}
+     - wait_before_next_poll:
+         call: sys.sleep
+         args:
+           seconds: 20
+     - return_job_status:
+         return: ${job_status.body}

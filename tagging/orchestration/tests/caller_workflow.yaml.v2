@@ -1,0 +1,68 @@
+main:
+    steps:
+    - oauth_token:
+        call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.create
+        args:
+            parent: "projects/sdw-data-gov-b1927e-dd69/locations/us-central1/workflows/oauth-token"
+        result: oauth_token
+    - parse_token:
+        assign: 
+            - formatted_token: ${text.substring(oauth_token.result, 2, 1025)}
+    - data_sensitivity:
+        call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.create
+        args:
+            parent: "projects/sdw-data-gov-b1927e-dd69/locations/us-central1/workflows/tag-updates-data-sensitivity"
+            body:
+                argument: '${"{" + "\"oauth_token\": \"" + formatted_token + "\"" + "}"}'
+        result: data_sensitivity_result
+    - cdmc_controls:
+        call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.create
+        args:
+            parent: "projects/sdw-data-gov-b1927e-dd69/locations/us-central1/workflows/tag-updates-cdmc-controls"
+            body:
+                argument: '${"{" + "\"oauth_token\": \"" + formatted_token + "\"" + "}"}'
+        result: cdmc_controls_result
+    - security_policy:
+        call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.create
+        args:
+            parent: "projects/sdw-data-gov-b1927e-dd69/locations/us-central1/workflows/tag-updates-security-policy"
+            body:
+                argument: '${"{" + "\"oauth_token\": \"" + formatted_token + "\"" + "}"}'
+        result: security_policy_result
+    - cost_metrics:
+        call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.create
+        args:
+            parent: "projects/sdw-data-gov-b1927e-dd69/locations/us-central1/workflows/tag-updates-cost-metrics"
+            body:
+                argument: '${"{" + "\"oauth_token\": \"" + formatted_token + "\"" + "}"}'
+        result: cost_metrics_result
+    - completeness:
+        call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.create
+        args:
+            parent: "projects/sdw-data-gov-b1927e-dd69/locations/us-central1/workflows/tag-updates-completeness"
+            body:
+                argument: '${"{" + "\"oauth_token\": \"" + formatted_token + "\"" + "}"}'
+        result: completeness_result
+    - correctness:
+        call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.create
+        args:
+            parent: "projects/sdw-data-gov-b1927e-dd69/locations/us-central1/workflows/tag-updates-correctness"
+            body:
+                argument: '${"{" + "\"oauth_token\": \"" + formatted_token + "\"" + "}"}'
+        result: correctness_result
+    - impact_assessment:
+        call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.create
+        args:
+            parent: "projects/sdw-data-gov-b1927e-dd69/locations/us-central1/workflows/tag-updates-impact-assessment"
+            body:
+                argument: '${"{" + "\"oauth_token\": \"" + formatted_token + "\"" + "}"}'
+        result: impact_assessment_result
+    - export:
+        call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.create
+        args:
+            parent: "projects/sdw-data-gov-b1927e-dd69/locations/us-central1/workflows/tag-exports-all-templates"
+            body:
+                argument: '${"{" + "\"oauth_token\": \"" + formatted_token + "\"" + "}"}'
+        result: export_result
+    - return_status:
+        return: "done"

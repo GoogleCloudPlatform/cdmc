@@ -1,0 +1,35 @@
+{
+    "template_id": "cost_metrics",
+    "template_project": "sdw-data-gov-b1927e-dd69",
+    "template_region": "us-central1",
+    "fields": [
+        {
+            "field_id": "total_query_bytes_billed",
+            "query_expression": "select if(sum(total_bytes_billed)>0,sum(total_bytes_billed),0) as total_query_bytes_billed from (select * from `sdw-data-gov-b1927e-dd69`.`region-us-central1`.INFORMATION_SCHEMA.JOBS_BY_FOLDER, unnest(referenced_tables) as rt where rt.project_id = '$project' and rt.dataset_id = '$dataset' and rt.table_id = '$table' and date(creation_time) >= (select date(year, month, 01) from (select extract(year from current_date) as year, extract(month from current_date) as month)))"
+        },
+        {
+            "field_id": "total_storage_bytes_billed",
+            "query_expression": "select if(total_physical_bytes>0,total_physical_bytes,0) as total_storage_bytes_billed from (select * from `$project`.`region-us-central1`.INFORMATION_SCHEMA.TABLE_STORAGE_BY_PROJECT where table_schema = '$dataset' and table_name = '$table')"
+        },
+        {
+            "field_id": "total_bytes_transferred",
+            "query_expression": "select `sdw-data-gov-b1927e-dd69`.remote_functions.get_bytes_transferred('bytes', '$project', '$dataset', '$table')"
+        },
+        {
+            "field_id": "estimated_query_cost",
+            "query_expression": "select round(safe_divide(total_query_bytes_billed, pow(1024, 4)) * (select t.usd_amount from sdw-data-gov-b1927e-dd69.pricing_export.cloud_pricing_export, unnest(billing_account_price.tiered_rates) as t where sku.description = 'Analysis (us-central1)' and t.usd_amount > 0), 4) from (select if(sum(total_bytes_billed)>0,sum(total_bytes_billed),0) as total_query_bytes_billed from (select * from `sdw-data-gov-b1927e-dd69`.`region-us-central1`.INFORMATION_SCHEMA.JOBS_BY_FOLDER, unnest(referenced_tables) as rt where rt.project_id = '$project' and rt.dataset_id = '$dataset' and rt.table_id = '$table' and date(creation_time) >= (select date(year, month, 01) from (select extract(year from current_date) as year, extract(month from current_date) as month))))"
+        },
+        {
+            "field_id": "estimated_storage_cost",
+            "query_expression": "select round(safe_divide(total_storage_bytes_billed, pow(1024, 3)) * (select t.usd_amount from sdw-data-gov-b1927e-dd69.pricing_export.cloud_pricing_export, unnest(billing_account_price.tiered_rates) as t where sku.description = 'BigQuery Storage API - Write (us-central1)' and t.usd_amount > 0), 4) from (select if(total_physical_bytes>0,total_physical_bytes,0) as total_storage_bytes_billed from (select * from `$project`.`region-us-central1`.INFORMATION_SCHEMA.TABLE_STORAGE_BY_PROJECT where table_schema = '$dataset' and table_name = '$table'))"
+        },
+        {
+            "field_id": "estimated_egress_cost",
+            "query_expression": "select `sdw-data-gov-b1927e-dd69`.remote_functions.get_bytes_transferred('cost', '$project', '$dataset', '$table')"
+        }
+    ],
+    "included_tables_uris": "bigquery/project/sdw-conf-b1927e-bcc1/dataset/oltp/*",
+    "refresh_mode": "ON_DEMAND",
+    "tag_history": true,
+    "tag_stream": false  
+}

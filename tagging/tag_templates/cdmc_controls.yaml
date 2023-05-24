@@ -1,0 +1,93 @@
+# Copyright 2022 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+template:
+- name: cdmc_controls
+  display_name: "CDMC Controls Template"
+  fields:
+    - field: is_sensitive
+      type: bool
+      display: "Is sensitive"
+      description: "Indicates whether the data asset contains sensitive information (control 6)"
+      required: true
+      order: 13
+    - field: sensitive_category
+      type: string
+      display: "Sensitive category"
+      description: "The sensitive category of this data asset, inferred from the most sensitive column type (control 6)"
+      required: false
+      order: 12
+    - field: data_owner_name
+      type: string
+      display: "Data owner name"
+      description: "The name of the data owner for this data asset (control 2)"
+      order: 11
+    - field: data_owner_email
+      type: string
+      display: "Data owner email"
+      description: "The email of the data owner for this data asset (control 2)"
+      order: 10
+    - field: is_authoritative
+      type: bool
+      display: "Is authoritative"
+      description: "Indicates whether the data asset is considered authoritative (control 3)"
+      required: true
+      order: 9
+    - field: approved_storage_location
+      type: string
+      display: "Approved storage location"
+      description: "The approved storage location for this data asset (control 4)"
+      order: 8
+    - field: approved_use
+      type: string
+      display: "Approved use"
+      description: "The approved use or uses for this data asset (control 8)"
+      order: 7
+    - field: ultimate_source
+      type: string
+      display: "Ultimate source"
+      description: "The ultimate source for this data asset (control 14)"
+      order: 6
+    - field: sharing_scope_geography
+      type: richtext
+      display: "Sharing scope geography"
+      description: "The sharing scope geography or geographies (control 8)"
+      order: 5
+    - field: sharing_scope_legal_entity
+      type: richtext
+      display: "Sharing scope legal entity"
+      description: "The sharing scope legal entity or entities (control 8)"
+      order: 4
+    - field: encryption_method
+      type: string
+      display: "Encryption method"
+      description: "The encryption method used on this data asset (control 9)"
+      order: 3
+    - field: retention_period
+      type: double
+      display: "Retention period"
+      description: "The retention period in days for this data (control 11)"
+      order: 2
+    - field: expiration_action
+      type: enum
+      values: Purge|Archive
+      display: "Expiration action"
+      description: "The action to be taken when the data expires (control 11)"
+      order: 1
+    - field: most_recent_tag_update
+      type: timestamp
+      display: "Most recent tag update"
+      description: "The most recent tag update given in UTC time, used for reporting and debugging"
+      order: 0
+

@@ -1,0 +1,89 @@
+main:
+    params: [args]
+    steps:
+      - security_policy_crm:
+          call: trigger_job_flow
+          args:
+            oauth_token: ${args.oauth_token}
+            config_type: "DYNAMIC_TAG_COLUMN"
+            config_uuid: "365f07feec2411ed92b79bd64615ec44"
+          result: security_policy_crm_status
+      - security_policy_hr:
+          call: trigger_job_flow
+          args:
+            oauth_token: ${args.oauth_token}
+            config_type: "DYNAMIC_TAG_COLUMN"
+            config_uuid: "096fc7f0ec2511eda40051c428bb776e"
+          result: security_policy_hr_status
+      - security_policy_oltp:
+          call: trigger_job_flow
+          args:
+            oauth_token: ${args.oauth_token}
+            config_type: "DYNAMIC_TAG_COLUMN"
+            config_uuid: "c5f52e52ec2911eda736e55a872784bf"
+          result: security_policy_oltp_status
+      - security_policy_sales:
+          call: trigger_job_flow
+          args:
+            oauth_token: ${args.oauth_token}
+            config_type: "DYNAMIC_TAG_COLUMN"
+            config_uuid: "fba9bcf2ec2911edbd5ee55a872784bf"
+          result: security_policy_sales_status
+      - security_policy_finwire:
+          call: trigger_job_flow
+          args:
+            oauth_token: ${args.oauth_token}
+            config_type: "DYNAMIC_TAG_COLUMN"
+            config_uuid: "33111500ec2a11edbd5ee55a872784bf"
+          result: security_policy_finwire_status
+      - return_message:
+          return: "done"
+trigger_job_flow:
+    params: [oauth_token, config_type, config_uuid]
+    steps:
+     - job_completion_init:
+         assign:
+           - tasks_completed: 0
+     - trigger_job:
+         call: http.post
+         args:
+           url: https://tag-engine-h5dcyzhzta-uc.a.run.app/trigger_job
+           headers:
+             oauth_token: ${oauth_token}
+           auth:
+             type: OIDC
+           body:
+             config_type: ${config_type}
+             config_uuid: ${config_uuid}
+         result: job_result
+     - wait_before_poll:
+         call: sys.sleep
+         args:
+           seconds: 60
+     - get_job_status:
+         call: http.post
+         args:
+           url: https://tag-engine-h5dcyzhzta-uc.a.run.app/get_job_status
+           headers:
+             oauth_token: ${oauth_token}
+           auth:
+             type: OIDC
+           body:
+             ${job_result.body}
+         result: job_status
+     - check_if_done:
+         switch:
+            - condition: '${job_status.body.job_status == "PENDING" or job_status.body.job_status == "RUNNING"}'
+              next: wait_before_next_poll    
+            - condition: '${job_status.body.job_status == "SUCCESS" or job_status.body.job_status == "ERROR"}'
+              return: ${job_status.body}
+     - wait_before_next_poll:
+         call: sys.sleep
+         args:
+           seconds: 60
+     - job_completion_prev:
+         assign:
+           - tasks_completed: job_status.body.tasks_completed
+         next: get_job_status
+     - return_job_status:
+         return: ${job_status.body}

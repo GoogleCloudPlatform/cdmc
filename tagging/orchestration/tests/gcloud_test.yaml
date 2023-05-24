@@ -1,0 +1,18 @@
+main:
+  steps:
+  - create_build:
+      call: googleapis.cloudbuild.v1.projects.builds.create
+      args:
+        projectId: "sdw-data-gov-b1927e-dd69"
+        parent: "projects/sdw-data-gov-b1927e-dd69/locations/global"
+        body:
+          serviceAccount: "projects/sdw-data-gov-b1927e-dd69/serviceAccounts/cloud-build@sdw-data-gov-b1927e-dd69.iam.gserviceaccount.com"
+          options:
+            logging: CLOUD_LOGGING_ONLY
+          steps:
+          - name: gcr.io/google.com/cloudsdktool/cloud-sdk
+            entrypoint: /bin/bash
+            args: ["-c", "gcloud auth application-default print-access-token > $$BUILDER_OUTPUT/output"]
+      result: gcloud_result
+  - return_gcloud_result:
+      return: ${text.split(text.decode(base64.decode(gcloud_result.metadata.build.results.buildStepOutputs[0])), "\n")}

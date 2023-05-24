@@ -1,0 +1,16 @@
+{
+    "template_id": "security_policy",
+    "template_project": "sdw-data-gov-b1927e-dd69",
+    "template_region": "us-central1",
+    "fields": [
+        {
+            "field_id": "platform_deid_method",
+            "query_expression": "select `sdw-data-gov-b1927e-dd69`.remote_functions.get_masking_rule('$project', '$dataset', '$table','$column');"
+        }
+    ],
+    "included_columns_query": "select distinct SUBSTR(asset_name, INSTR(asset_name, '/', -1)+1) from sdw-data-gov-b1927e-dd69.tag_history_logs.data_sensitivity where CONTAINS_SUBSTR(asset_name, '$project/dataset/$dataset/table/$table')",
+	"included_tables_uris": "bigquery/project/sdw-conf-b1927e-bcc1/dataset/finwire/*",
+    "refresh_mode": "ON_DEMAND",
+    "tag_history": true,
+    "tag_stream": false  
+}

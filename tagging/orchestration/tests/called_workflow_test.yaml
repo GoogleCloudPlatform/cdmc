@@ -1,0 +1,5 @@
+main:
+    params: [args]
+    steps:
+     - return_arg:
+         return: ${args.oauth}

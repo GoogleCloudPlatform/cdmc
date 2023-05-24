@@ -1,0 +1,35 @@
+{
+    "template_id": "impact_assessment",
+    "template_project": "sdw-data-gov-b1927e-dd69",
+    "template_region": "us-central1",
+    "fields": [
+        {
+            "field_id": "subject_locations",
+            "query_expression": "select subject_location from sdw-data-gov-b1927e-dd69.impact_assessment.asset_ia_details where asset_name = '$project.$dataset.$table' order by subject_location"
+        },
+        {
+            "field_id": "is_dpia",
+            "query_expression": "select count(*) > 0 from sdw-data-gov-b1927e-dd69.impact_assessment.asset_ia_details where ia_type = 'DPIA' and asset_name = '$project.$dataset.$table'"
+        },
+        {
+            "field_id": "is_pia",
+            "query_expression": "select count(*) > 0 from sdw-data-gov-b1927e-dd69.impact_assessment.asset_ia_details where ia_type = 'PIA' and asset_name = '$project.$dataset.$table'"
+        },
+        {
+            "field_id": "impact_assessment_reports",
+            "query_expression": "select ia_link from sdw-data-gov-b1927e-dd69.impact_assessment.asset_ia_details where asset_name = '$project.$dataset.$table'"
+        },
+        {
+            "field_id": "most_recent_assessment",
+            "query_expression": "select max(datetime(ia_last_modified_date)) from sdw-data-gov-b1927e-dd69.impact_assessment.asset_ia_details where asset_name = '$project.$dataset.$table'"
+        },
+        {
+            "field_id": "oldest_assessment",
+            "query_expression": "select min(datetime(ia_last_modified_date)) from sdw-data-gov-b1927e-dd69.impact_assessment.asset_ia_details where asset_name = '$project.$dataset.$table'"
+        }
+    ],
+    "included_tables_uris": "bigquery/project/sdw-conf-b1927e-bcc1/dataset/finwire/*",
+    "refresh_mode": "ON_DEMAND",
+    "tag_history": true,
+    "tag_stream": false  
+}

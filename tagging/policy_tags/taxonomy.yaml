@@ -1,0 +1,43 @@
+# Copyright 2023 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+taxonomy: 
+  name: sensitive_data_classification
+  project: sdw-data-gov-b1927e-dd69
+  region: us-central1
+  policy_tags:
+    Personal_Identifiable_Information:
+      fine_grained_readers: [tag-creator@sdw-data-gov-b1927e-dd69.iam.gserviceaccount.com]
+      masking_rules:
+        - policy_name: personal_identifiable_information_policy
+          masking_type: hash
+          masked_readers: [marktomlinson@secure-blueprint-demo-one.ongcp.co, scohen@secure-blueprint-demo-one.ongcp.co]
+    Personal_Information:
+      fine_grained_readers: [tag-creator@sdw-data-gov-b1927e-dd69.iam.gserviceaccount.com]
+      masking_rules:
+        - policy_name: personal_information_policy
+          masking_type: default
+          masked_readers: [marktomlinson@secure-blueprint-demo-one.ongcp.co, scohen@secure-blueprint-demo-one.ongcp.co]
+    Sensitive_Personal_Identifiable_Information:
+      fine_grained_readers: [tag-creator@sdw-data-gov-b1927e-dd69.iam.gserviceaccount.com]
+      masking_rules:
+        - policy_name: sensitive_personal_identifiable_information_policy
+          masking_type: nullify
+          masked_readers: [marktomlinson@secure-blueprint-demo-one.ongcp.co, scohen@secure-blueprint-demo-one.ongcp.co]
+    Sensitive_Personal_Information:
+      fine_grained_readers: [tag-creator@sdw-data-gov-b1927e-dd69.iam.gserviceaccount.com]
+      masking_rules:
+        - policy_name: sensitive_personal_information_policy
+          masking_type: default
+          masked_readers: [marktomlinson@secure-blueprint-demo-one.ongcp.co, scohen@secure-blueprint-demo-one.ongcp.co]

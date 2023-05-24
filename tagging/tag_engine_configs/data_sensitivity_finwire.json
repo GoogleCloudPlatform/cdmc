@@ -1,0 +1,22 @@
+{
+    "template_id": "data_sensitivity",
+    "template_project": "sdw-data-gov-b1927e-dd69",
+    "template_region": "us-central1",
+    "fields": [
+        {
+            "field_id": "sensitive_field"
+        },
+        {
+            "field_id": "sensitive_type"
+        }
+    ],
+    "dlp_dataset": "bigquery/project/sdw-data-gov-b1927e-dd69/dataset/finwire_dlp",
+	"infotype_selection_table": "bigquery/project/sdw-data-gov-b1927e-dd69/dataset/data_classification/infotype_selection",
+	"infotype_classification_table": "bigquery/project/sdw-data-gov-b1927e-dd69/dataset/data_classification/infotype_classification",
+	"included_tables_uris": "bigquery/project/sdw-conf-b1927e-bcc1/dataset/finwire/*",
+    "create_policy_tags": true,
+    "taxonomy_id": "projects/sdw-data-gov-b1927e-dd69/locations/us-central1/taxonomies/730755508715999596",
+    "refresh_mode": "ON_DEMAND",
+    "tag_history": true,
+    "tag_stream": false   
+}

@@ -1,0 +1,12 @@
+main:
+    params: [args]
+    steps:
+    - export:
+        call: googleapis.workflowexecutions.v1.projects.locations.workflows.executions.create
+        args:
+            parent: "projects/sdw-data-gov-b1927e-dd69/locations/us-central1/workflows/called-workflow-test"
+            body:
+                argument: "{\"oauth\": \" $args.oauth_token \"}"
+        result: name
+    - return_result:
+        return: name
