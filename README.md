@@ -1,6 +1,14 @@
 # GCP CDMC SOLUTION
 
-This repository contains the CDMC Solutions. Key components:
+This repository contains the CDMC reference architecture for Google Cloud. 
 
-- CDMC gen-metadata;
-- CDMC REPORT ENGINE (/report-engine)
+### Deployment Procedure
+
+Each component of the reference architecture has its own deployment guide. To deploy the entire architecture, follow the steps in each of the guides. There are 6 guides in total. 
+
+- data ingestion 
+- data scans 
+- data quality (Mose)
+- tagging 
+- control detector (Eduardo) 
+- reporting (Mark)
