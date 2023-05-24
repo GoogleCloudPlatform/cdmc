@@ -6,7 +6,7 @@ This guide covers the data ingestion aspects of the CDMC reference architecture.
 
 2. Create a bucket on Google Cloud Storage and copy the tpcdi dataset to it. 
 
-3. Open LineageManager.py and replace the `DL_API` and `SA_KEY` variables on lines 10 and 11 with your values. 
+3. Open `LineageManager.py` and replace the `DL_API` and `SA_KEY` variables on lines 10 and 11 with your values. 
 
 4. Open each of the 6 `load_*.py` scripts (e.g. `load_crm.py`, etc.) and replace the variables on lines 5-12 with your values. 
 
