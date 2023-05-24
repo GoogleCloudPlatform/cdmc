@@ -12,26 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# Note: before running, be sure to install google-cloud-dlp==1.0.0. 
-# Don't use a more recent version of the library as project_path() has since been removed. 
-
 from google.cloud import dlp_v2
 from google.cloud import bigquery
 
-region = 'us-central1'
-inspect_project = 'sdw-conf-b1927e-bcc1'
-inspect_datasets = ['crm', 'finwire', 'hr', 'oltp', 'sales']
-#inspect_datasets = ['crm']
+region = 'us-central1'                                          # replace with your region
+inspect_project = 'sdw-conf-b1927e-bcc1'                        # replace with your project
+inspect_datasets = ['crm', 'finwire', 'hr', 'oltp', 'sales']   
 
-result_project = 'sdw-data-gov-b1927e-dd69'
+result_project = 'sdw-data-gov-b1927e-dd69'                     # replace with your project
 result_datasets = ['crm_dlp', 'finwire_dlp', 'hr_dlp', 'oltp_dlp', 'sales_dlp']
-#result_datasets = ['crm_dlp']
 
 bq_client = bigquery.Client(project=inspect_project)
 dlp_client = dlp_v2.DlpServiceClient()
 parent = dlp_client.common_project_path(result_project)
 
-scan_period_days = 1
+scan_period_days = 1  # adjust if needed
 
 def inspect():
 
