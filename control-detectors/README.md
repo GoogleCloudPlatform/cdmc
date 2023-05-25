@@ -18,7 +18,7 @@ GCP CDMC Report Engine is a Python flask application, with execution based on re
 - - Pub/Sub topics for events and data_assets, with related Pub/Sub schemas and BQ subscribers;
 - - BigQuery dataset and tables for events and data assets logs;
 
-After the executing the requirements, Report Engine can be deployed in Cloud Run (recommended) or Compute Engine.
+After the execution of the requirements, Report Engine can be deployed in Cloud Run (recommended) or Compute Engine.
 
 
 ### Cloud Run (Recommended)
