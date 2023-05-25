@@ -11,5 +11,5 @@ Each component of the reference architecture has its own deployment guide. To de
 - data quality (Mose)
 - [tagging](https://github.com/GoogleCloudPlatform/cdmc/blob/main/tagging/README.md) 
 - [record manager](https://github.com/GoogleCloudPlatform/bigquery-record-manager/blob/main/README.md)  
-- [control detectors](https://github.com/GoogleCloudPlatform/cdmc/blob/main/control-detectors/README.md) 
-- reporting (Mark)
+- [report engine](https://github.com/GoogleCloudPlatform/cdmc/blob/main/report-engine/README.md) 
+- dashboard (Mark)
