@@ -266,8 +266,54 @@ curl -X POST $TAG_ENGINE_URL/create_dynamic_table_config \
 	-H "oauth_token: $OAUTH_TOKEN"
 ```
 
+```
+curl -X POST $TAG_ENGINE_URL/create_export_config \
+	-d @tag_engine_configs/export_all_tags.json \
+	-H "Authorization: Bearer $IAM_TOKEN" \
+	-H "oauth_token: $OAUTH_TOKEN"
+```
+
 #### Part 4: Tag update orchestration
 
-9. 
+9. Enable the Cloud Workflows API. 
 
+10. Open each yaml file under the `/orchestration` folder, and replace the `config_uuid` values starting on line 9 with the actual values you received from the previous step when creating the configs. You'll also need to replace the project id values in the `caller_workflow.yaml` file. 
+
+10. Deploy the workflows: 
+
+To deploy a workflow, you need to specify a service account that you'd like the workflow to run as. We recommend you use the cloud run service account which you created for running Tag Engine. This will be referred to as CLOUD_RUN_SA in the commands below. 
+
+```
+gcloud workflows deploy tag-updates-data-sensitivity --location=us-central1 \
+	--source=tag_updates_data_sensitivity.yaml --service-account=CLOUD_RUN_SA
+
+gcloud workflows deploy tag-updates-cdmc-controls --location=us-central1 \
+	--source=tag_updates_cdmc_controls.yaml --service-account=CLOUD_RUN_SA
+	
+gcloud workflows deploy tag-updates-security-policy --location=us-central1 \
+	--source=tag_updates_security_policy.yaml --service-account=CLOUD_RUN_SA
+	
+gcloud workflows deploy tag-updates-cost-metrics --location=us-central1 \
+	--source=tag_updates_cost_metrics.yaml --service-account=CLOUD_RUN_SA
+
+gcloud workflows deploy tag-updates-completeness --location=us-central1 \
+	--source=tag_updates_completeness.yaml --service-account=CLOUD_RUN_SA
+
+gcloud workflows deploy tag-updates-correctness --location=us-central1 \
+	--source=tag_updates_correctness.yaml --service-account=CLOUD_RUN_SA
+
+gcloud workflows deploy tag-updates-impact-assessment --location=us-central1 \
+	--source=tag_updates_impact_assessment.yaml --service-account=CLOUD_RUN_SA
+	
+gcloud workflows deploy tag-exports-all-templates --location=us-central1 \
+	--source=tag_exports_all_templates.yaml --service-account=CLOUD_RUN_SA
+	
+gcloud workflows deploy oauth-token --location=us-central1 \
+	--source=oauth_token.yaml --service-account=CLOUD_RUN_SA
+	
+gcloud workflows deploy caller_workflow --location=us-central1 \
+	--source=caller_workflow.yaml --service-account=CLOUD_RUN_SA
+```
+
+11. Open the Cloud Workflows UI and create a job trigger for the `caller_workflow`. The `caller_workflow` executes all of the other workflows in the right sequence. The `caller_workflow` takes about ~70 minutes to run. By creating the job trigger, you are scheduling the `caller_workflow` to run on a regular interval.  
  
