@@ -1,0 +1,10 @@
+# System folders
+.venv/
+.vscode/
+__pycache__
+
+# Ignore tpcdi data
+data-ingestion/tpcdi-data
+
+# Ignore user env script, only the example should be checked in
+environment-variables.sh
