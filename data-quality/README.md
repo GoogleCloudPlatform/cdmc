@@ -1,12 +1,14 @@
 # Instructions
 
-This is folder incldues the configuration for some of the DQ rules of the TPC-DI dataset,
+This is folder includes the configuration for some of the DQ rules of the TPC-DI dataset,
 using a minimalistic configuration of `cloud-data-quality`.
 For convenience, we include a deployment script which creates a Cloud Run job that can execute the 
 data quality rules.
 
 ## Configuration
-All of the configuration is in the `configs` folder. Note how common rules are in the `common.yml` file and there is a config file per entity of the TCP-DI dataset, containing fields and rules bindings.
+All of the configuration is in the [`configs`](./configs) folder. Note how common rules are in the 
+[`common.yml`](./configs/common.yml) file and there is a config file per entity of the TCP-DI dataset, 
+containing fields and rules bindings.
 
 You can customise the configuration to your requirements.
 
@@ -14,10 +16,10 @@ You can customise the configuration to your requirements.
 For convenience, we have provided a deployment script which performes the following:
 * Builds a docker image with the cloud-dq binaries and the configuraiton, and uploads to GCR
 * Creates a CloudRun job, passing the following parameters: 
-    * project_id where the data resides
-    * project_id of the data governance, where DQ runs 
-    * region where DQ runs 
-    * dataset used to store the DQ results
+    * *project_id* where the data resides
+    * *project_id* of the data governance, where DQ runs 
+    * *region* where DQ runs 
+    * *dataset* used to store the DQ results
 
 You can deploy by executing the following script:
 ```
