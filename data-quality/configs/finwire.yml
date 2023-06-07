@@ -1,0 +1,225 @@
+# Copyright 2023 Google LLC
+#
+# Licensed under the Apache License, Version 2.0 the "License";
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#      http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+entities:
+  FINWIRE:
+    source_database: BIGQUERY
+    table_name: FINWIRE1994Q4_CMP
+    dataset_name: finwire
+    project_name: PROJECT_ID
+    columns:
+      pts: 
+        name: pts
+        data_type: STRING
+      recType: 
+        name: recType
+        data_type: STRING
+      companyName: 
+        name: companyName
+        data_type: STRING
+      cik: 
+        name: cik
+        data_type: STRING
+      status: 
+        name: status
+        data_type: STRING
+      industryID: 
+        name: industryID
+        data_type: STRING
+      spRating: 
+        name: spRating
+        data_type: STRING
+      foundingDate: 
+        name: foundingDate
+        data_type: DATE
+      addr_line1: 
+        name: addr_line1
+        data_type: STRING
+      addr_line2: 
+        name: addr_line2
+        data_type: STRING
+      postalCode: 
+        name: postalCode
+        data_type: STRING
+      city: 
+        name: city
+        data_type: STRING
+      stateProvince: 
+        name: stateProvince
+        data_type: STRING
+      country: 
+        name: country
+        data_type: STRING
+      ceoName: 
+        name: ceoName
+        data_type: STRING
+      description: 
+        name: description
+        data_type: STRING
+
+rules:
+  FOREIGN_KEY_VALID_INDUSTRY:
+    rule_type: CUSTOM_SQL_EXPR
+    dimension: consistency
+    params:
+      custom_sql_expr: |-
+        $column in (select distinct in_id from `PROJECT_ID`.`reference`.`Industry`)
+
+rule_bindings:
+  FOREIGN_KEY_VALID_INDUSTRY:
+    entity_id: FINWIRE
+    column_id: industryID
+    row_filter_id: NONE
+    metadata:
+      cdmc_threshold: 0.9
+    rule_ids:
+      - FOREIGN_KEY_VALID_INDUSTRY
+  NOT_NULL_PTS:
+    entity_id: FINWIRE
+    column_id: PTS
+    row_filter_id: NONE
+    metadata:
+      cdmc_threshold: 0.9
+    rule_ids:
+      - NOT_NULL_SIMPLE
+  NOT_NULL_pts:
+    entity_id: FINWIRE
+    column_id: pts
+    row_filter_id: NONE
+    metadata:
+      cdmc_threshold: 0.9
+    rule_ids:
+      - NOT_NULL_SIMPLE
+  NOT_NULL_recType:
+    entity_id: FINWIRE
+    column_id: recType
+    row_filter_id: NONE
+    metadata:
+      cdmc_threshold: 0.9
+    rule_ids:
+      - NOT_NULL_SIMPLE
+  NOT_NULL_companyName:
+    entity_id: FINWIRE
+    column_id: companyName
+    row_filter_id: NONE
+    metadata:
+      cdmc_threshold: 0.9
+    rule_ids:
+      - NOT_NULL_SIMPLE
+  NOT_NULL_cik:
+    entity_id: FINWIRE
+    column_id: cik
+    row_filter_id: NONE
+    metadata:
+      cdmc_threshold: 0.9
+    rule_ids:
+      - NOT_NULL_SIMPLE
+  NOT_NULL_status:
+    entity_id: FINWIRE
+    column_id: status
+    row_filter_id: NONE
+    metadata:
+      cdmc_threshold: 0.9
+    rule_ids:
+      - NOT_NULL_SIMPLE
+  NOT_NULL_industryID:
+    entity_id: FINWIRE
+    column_id: industryID
+    row_filter_id: NONE
+    metadata:
+      cdmc_threshold: 0.9
+    rule_ids:
+      - NOT_NULL_SIMPLE
+  NOT_NULL_spRating:
+    entity_id: FINWIRE
+    column_id: spRating
+    row_filter_id: NONE
+    metadata:
+      cdmc_threshold: 0.9
+    rule_ids:
+      - NOT_NULL_SIMPLE
+  NOT_NULL_foundingDate:
+    entity_id: FINWIRE
+    column_id: foundingDate
+    row_filter_id: NONE
+    metadata:
+      cdmc_threshold: 0.9
+    rule_ids:
+      - NOT_NULL_SIMPLE
+  NOT_NULL_addr_line1:
+    entity_id: FINWIRE
+    column_id: addr_line1
+    row_filter_id: NONE
+    metadata:
+      cdmc_threshold: 0.9
+    rule_ids:
+      - NOT_NULL_SIMPLE
+  NOT_NULL_addr_line2:
+    entity_id: FINWIRE
+    column_id: addr_line2
+    row_filter_id: NONE
+    metadata:
+      cdmc_threshold: 0.9
+    rule_ids:
+      - NOT_NULL_SIMPLE
+  NOT_NULL_postalCode:
+    entity_id: FINWIRE
+    column_id: postalCode
+    row_filter_id: NONE
+    metadata:
+      cdmc_threshold: 0.9
+    rule_ids:
+      - NOT_NULL_SIMPLE
+  NOT_NULL_city:
+    entity_id: FINWIRE
+    column_id: city
+    row_filter_id: NONE
+    metadata:
+      cdmc_threshold: 0.9
+    rule_ids:
+      - NOT_NULL_SIMPLE
+  NOT_NULL_stateProvince:
+    entity_id: FINWIRE
+    column_id: stateProvince
+    row_filter_id: NONE
+    metadata:
+      cdmc_threshold: 0.9
+    rule_ids:
+      - NOT_NULL_SIMPLE
+  NOT_NULL_country:
+    entity_id: FINWIRE
+    column_id: country
+    row_filter_id: NONE
+    metadata:
+      cdmc_threshold: 0.9
+    rule_ids:
+      - NOT_NULL_SIMPLE
+  NOT_NULL_ceoName:
+    entity_id: FINWIRE
+    column_id: ceoName
+    row_filter_id: NONE
+    metadata:
+      cdmc_threshold: 0.9
+    rule_ids:
+      - NOT_NULL_SIMPLE
+  NOT_NULL_description:
+    entity_id: FINWIRE
+    column_id: description
+    row_filter_id: NONE
+    metadata:
+      cdmc_threshold: 0.9
+    rule_ids:
+      - NOT_NULL_SIMPLE
+
+
