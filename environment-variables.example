@@ -1,4 +1,3 @@
-
 #!/bin/bash
 
 # Copyright 2023 The Reg Reporting Blueprint Authors
@@ -16,24 +15,42 @@
 # limitations under the License.
 
 # Set the environment variables
+# These must be configured by the user
+export PROJECT_ID= YOURVALUE
+export PROJECT_ID_GOV= YOURVALUE
+export REGION= YOURVALUE
 
-# The project where the data will be loaded, and the controls will run
-export PROJECT_ID="UPDATE WITH YOUR VALUE" 
-
-# The governance project, used for 
-export PROJECT_ID_GOV="UPDATE WITH YOUR VALUE" 
-export REGION="us-central1"
+# Data Load variables
 export PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format="value(projectNumber)")
 export GCS_BUCKET_TPCDI=${PROJECT_NUMBER}-tpcdi-data
-#export KMS_KEY='projects/sdw-data-gov-b1927e-dd69/locations/us-central1/keyRings/cmek-keyring-bigquery/cryptoKeys/cmek-bigquery-hsm-key'  # replace with your key name
+export PROJECT_NUMBER_GOV=$(gcloud projects describe $PROJECT_ID_GOV --format="value(projectNumber)")
+export KMS_KEYRING=cmek-keyring-bigquery
+export KMS_KEYNAME=cmek-bigquery-key
+export KMS_KEY="projects/${PROJECT_ID}/locations/${REGION}/keyRings/${KMS_KEYRING}/cryptoKeys/${KMS_KEYNAME}"
+
+# CloudDQ variables
+export CLOUDDQ_BIGQUERY_DATASET="cloud_dq"
+#export CLOUDDQ_GOOGLE_CLOUD_PROJECT=${PROJECT_ID_GOV}
+#export CLOUDDQ_BIGQUERY_REGION=${REGION}
 
 echo -e "\nYour environment variables have been initialised as follows:"
-echo -e "\tModify anything that does not look right:"
-echo -e "\t\tPROJECT_ID             :" $PROJECT_ID
-echo -e "\t\tPROJECT_NUMBER         :" $PROJECT_NUMBER
-echo -e "\t\tPROJECTI_ID_GOV        :" $PROJECT_ID_GOV
-echo -e "\t\tREGION                 :" $REGION
-echo -e "\t\tGCS_BUCKET_TPCDI       :" $GCS_BUCKET_TPCDI
-#echo -e "\t\tKMS_KEY                :" $KMS_KEY
+echo -e "\n\nKey variables:"
+echo -e "\tPROJECT_ID                        :" $PROJECT_ID
+echo -e "\tPROJECT_NUMBER                    :" $PROJECT_NUMBER
+echo -e "\tPROJECT_NUMBER_GOV                :" $PROJECT_NUMBER_GOV
+echo -e "\tPROJECT_ID_GOV                    :" $PROJECT_ID_GOV
+echo -e "\tREGION                            :" $REGION
+           
+echo -e "\n\nData Load:"           
+echo -e "\tGCS_BUCKET_TPCDI                  :" $GCS_BUCKET_TPCDI
+echo -e "\tKMS_KEY                           :" $KMS_KEY
+echo -e "\tKMS_KEYRING                       :" $KMS_KEYRING
+echo -e "\tKMS_KEYNAME                       :" $KMS_KEYNAME
+echo -e "\tKMS_KEY                           :" $KMS_KEY
+
+echo -e "\n\nData Quality:"
+echo -e "\tCLOUDDQ_BIGQUERY_DATASET          :" $CLOUDDQ_BIGQUERY_DATASET
+
+
 
 
