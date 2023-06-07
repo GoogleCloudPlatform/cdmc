@@ -23,7 +23,7 @@ dl = DataLoader()
 def load_prospect():
     filename = 'Prospect*.csv'
     table = 'Prospect'
-    dataset = 'reference'
+    dataset = 'sales'
     origin = 'load_reference.py'
     schema = [
                 bigquery.SchemaField('agencyID', 'STRING'),
@@ -53,5 +53,5 @@ def load_prospect():
 
     
 if __name__ == '__main__':
-    dl.delete_create_dataset('reference')
+    dl.delete_create_dataset('sales')
     load_prospect()
