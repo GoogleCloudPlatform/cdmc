@@ -22,7 +22,7 @@ region = os.getenv('REGION')
 inspect_project = os.getenv('PROJECT_ID')                        
 inspect_datasets = ['crm', 'finwire', 'hr', 'oltp','reference', 'sales']   
 
-result_project = os.getenv('PROJECT_ID_GOV')                     # replace with your project
+result_project = os.getenv('PROJECT_ID_GOV')                    
 result_datasets = ['crm_dlp', 'finwire_dlp', 'hr_dlp', 'oltp_dlp','reference_dlp', 'sales_dlp']
 
 bq_client = bigquery.Client(project=inspect_project)
