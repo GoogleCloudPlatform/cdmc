@@ -22,7 +22,11 @@ source environment-variables.sh
 gcloud config set project $PROJECT_ID
 gcloud services enable datalineage.googleapis.com
 gcloud services enable cloudkms.googleapis.com
-gcloud services enable resourcesettings.googleapis.com 
+gcloud services enable resourcesettings.googleapis.com
+gcloud services enable dlp.googleapis.com 
+
+gcloud config set project $PROJECT_ID_GOV
+gcloud services enable dlp.googleapis.com
 
 # Create the required components
 gcloud config set project ${PROJECT_ID}
@@ -40,5 +44,7 @@ gcloud kms keys create ${KMS_KEYNAME} \
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member=serviceAccount:bq-${PROJECT_NUMBER}@bigquery-encryption.iam.gserviceaccount.com \
   --role=roles/cloudkms.cryptoKeyEncrypterDecrypter
+
+  
 
 
