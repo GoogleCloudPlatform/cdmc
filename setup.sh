@@ -18,15 +18,26 @@
 ## environment with the required dependencies
 source environment-variables.sh
 
-# Activate the required APIs for all the projects)
-gcloud config set project $PROJECT_ID
-gcloud services enable datalineage.googleapis.com
-gcloud services enable cloudkms.googleapis.com
-gcloud services enable resourcesettings.googleapis.com
-gcloud services enable dlp.googleapis.com 
+# Activate the required APIs for all the projects
+declare -a PROJECTS=($PROJECT_ID $PROJECT_ID_GOV)
+for p in "${PROJECTS[@]}"
+do
+    :
+    echo -e "\nActivating APIs in $p"
+    gcloud config set project $p
+    gcloud services enable datalineage.googleapis.com
+    gcloud services enable cloudkms.googleapis.com
+    gcloud services enable resourcesettings.googleapis.com 
+    gcloud services enable artifactregistry.googleapis.com 
+    gcloud services enable cloudbuild.googleapis.com
+    gcloud services enable run.googleapis.com
+    gcloud services enable dataplex.googleapis.com
+    gcloud services enable containerregistry.googleapis.com
+    gcloud services enable dlp.googleapis.com 
+done
 
-gcloud config set project $PROJECT_ID_GOV
-gcloud services enable dlp.googleapis.com
+# Back to data project
+gcloud config set project $PROJECT_ID
 
 # Create the required components
 gcloud config set project ${PROJECT_ID}
@@ -44,7 +55,26 @@ gcloud kms keys create ${KMS_KEYNAME} \
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member=serviceAccount:bq-${PROJECT_NUMBER}@bigquery-encryption.iam.gserviceaccount.com \
   --role=roles/cloudkms.cryptoKeyEncrypterDecrypter
+``
+# Create the CloudDQ dataset
+bq --location=${REGION} mk ${PROJECT_ID_GOV}:${CLOUDDQ_BIGQUERY_DATASET}
 
-  
+# Grant permission to the CEs service accounts in the governance project
+gcloud projects add-iam-policy-binding ${PROJECT_ID_GOV} \
+  --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \
+  --role=roles/logging.logWriter
+gcloud projects add-iam-policy-binding ${PROJECT_ID_GOV} \
+  --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \
+  --role=roles/bigquery.admin
+gcloud projects add-iam-policy-binding ${PROJECT_ID_GOV} \
+  --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \
+  --role=roles/serviceusage.serviceUsageConsumer
 
+# Grant the CE Data Governance SA access to the Data project
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+  --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \
+  --role=roles/bigquery.user
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+  --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \
+  --role=roles/bigquery.dataViewer
 

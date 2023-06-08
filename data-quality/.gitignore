@@ -1,0 +1,6 @@
+# These files are temporary - created by clouddq
+dbt
+clouddq_configs.db
+
+# Do not checkin the executable as it should be downloaded for the right python environment
+clouddq_executable.zip
