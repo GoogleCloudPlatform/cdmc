@@ -32,7 +32,8 @@ do
     gcloud services enable cloudbuild.googleapis.com
     gcloud services enable run.googleapis.com
     gcloud services enable dataplex.googleapis.com
-    gcloud services eenable containerregistry.googleapis.com
+    gcloud services enable containerregistry.googleapis.com
+    gcloud services enable dlp.googleapis.com 
 done
 
 # Back to data project
@@ -54,7 +55,7 @@ gcloud kms keys create ${KMS_KEYNAME} \
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member=serviceAccount:bq-${PROJECT_NUMBER}@bigquery-encryption.iam.gserviceaccount.com \
   --role=roles/cloudkms.cryptoKeyEncrypterDecrypter
-
+``
 # Create the CloudDQ dataset
 bq --location=${REGION} mk ${PROJECT_ID_GOV}:${CLOUDDQ_BIGQUERY_DATASET}
 

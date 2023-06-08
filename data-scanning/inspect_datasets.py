@@ -14,13 +14,16 @@
 
 from google.cloud import dlp_v2
 from google.cloud import bigquery
+import os
 
-region = 'us-central1'                                          # replace with your region
-inspect_project = 'sdw-conf-b1927e-bcc1'                        # replace with your project
-inspect_datasets = ['crm', 'finwire', 'hr', 'oltp', 'sales']   
+# Get project values from environment variables
 
-result_project = 'sdw-data-gov-b1927e-dd69'                     # replace with your project
-result_datasets = ['crm_dlp', 'finwire_dlp', 'hr_dlp', 'oltp_dlp', 'sales_dlp']
+region = os.getenv('REGION')                                         
+inspect_project = os.getenv('PROJECT_ID')                        
+inspect_datasets = ['crm', 'finwire', 'hr', 'oltp','reference', 'sales']   
+
+result_project = os.getenv('PROJECT_ID_GOV')                    
+result_datasets = ['crm_dlp', 'finwire_dlp', 'hr_dlp', 'oltp_dlp','reference_dlp', 'sales_dlp']
 
 bq_client = bigquery.Client(project=inspect_project)
 dlp_client = dlp_v2.DlpServiceClient()
