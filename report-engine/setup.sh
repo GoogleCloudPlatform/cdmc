@@ -21,10 +21,18 @@ popd
 
 ## Terraform setup
 pushd terraform
-
-## Create a copy of the terraform variables
+## Create a copy of the terraform variables and substitute values
 cp terraform.tfvars.template terraform.tfvars
-## Substitute variables
-sed -i "s/<PROJECT_ID>/$PROJECT_ID/" terraform.tfvars
+sed -i "s/<PROJECT_ID_GOV>/$PROJECT_ID_GOV/" terraform.tfvars
 sed -i "s/<ORGANIZATION_ID>/$ORGANIZATION_ID/" terraform.tfvars
 sed -i "s/<REGION>/$REGION/" terraform.tfvars
+popd
+
+## Cloud run setup
+pushd resources
+## Create a copy of the config.ini.example and substitute values
+cp config.ini.example config.ini
+sed -i "s/<PROJECT_ID_GOV>/$PROJECT_ID_GOV/" config.ini
+sed -i "s/<REGION>/$REGION/" config.ini
+popd
+#

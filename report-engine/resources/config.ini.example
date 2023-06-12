@@ -1,6 +1,6 @@
 [ASSETS_SCOPE]
-region=us-central1
-project_pubsub=<PROJECT_ID>
+region=<REGION>
+project_pubsub=<PROJECT_ID_GOV>
 topic=cdmc-data-assets-topic
 avsc=./resources/data_assets.avsc
 batch_max_size=2000
@@ -98,7 +98,7 @@ Control14_tag = "Add lineage information in CDMC tag"
 Control14_api = "Add lineage API events to the assigned sensitive table"
 
 [TAGS]
-Control4_template=projects/<PROJECT_ID>/locations/us-central1/tagTemplates/cdmc_controls
+Control4_template=projects/<PROJECT_ID_GOV>/locations/<REGION>/tagTemplates/cdmc_controls
 Control4_display=approved_storage_location
 Control6_sensitivity = sensitive_field
 Control6_sensitivity_display = Sensitive field
@@ -106,9 +106,9 @@ Control6_sensitivy_category = sensitive_type
 Control6_sensitivy_category_display = Sensitive type
 Control7=sensitive_type
 Control7_display = Sensitive type
-Control9_tag_table_sensitivity = projects/<PROJECT_ID>/locations/us-central1/tagTemplates/cdmc_controls
+Control9_tag_table_sensitivity = projects/<PROJECT_ID_GOV>/locations/<REGION>/tagTemplates/cdmc_controls
 Control9_display_table_sensivity = sensitive_category
-Control9_tag_encrypt = projects/<PROJECT_ID>/locations/us-central1/tagTemplates/cdmc_controls
+Control9_tag_encrypt = projects/<PROJECT_ID_GOV>/locations/<REGION>/tagTemplates/cdmc_controls
 Control9_display_encrypt = encryption_method
 Control9_tag_column_sensitivity = sensitive_field
 Control9_display_column_sensivity = Sensitive field
@@ -129,26 +129,26 @@ us-central1=us-central1,
 
 [SQL]
 sql_file_81=resources/control81_sql.txt
-project_id_81=<PROJECT_ID>
+project_id_GOV_81=<PROJECT_ID_GOV>
 dataset_81=entitlement_management
 sql_file_82_uwc=resources/control82_userwithoutcase_sql.txt
 sql_file_82_lv=resources/control82_labelvalue_sql.txt
 sql_file_82_lk=resources/control82_labelkey_sql.txt
 sql_file_82_date=resources/control82_date_sql.txt
 sql_file_82_op=resources/control82_operation_sql.txt
-project_id_82=<PROJECT_ID>
+project_id_GOV_82=<PROJECT_ID_GOV>
 dataset_82=entitlement_management
-project_id_9=<PROJECT_ID>
+project_id_GOV_9=<PROJECT_ID_GOV>
 dataset_9=security_policy
 sql_file_9_encrypt = resources/control9_encrypt_sql.txt
 sql_file_9_deid = resources/control9_deid_sql.txt
 sql_file_9_appdeid = resources/control9_appdeid_sql.txt
 sql_file_10_control_table=resources/control10_sql.txt
-project_id_10=<PROJECT_ID>
+project_id_GOV_10=<PROJECT_ID_GOV>
 dataset_10=impact_assessment
 sql_file_10_ca=resources/control10_ca_sql.txt
 sql_file_11=resources/control11_sql.txt
-project_id_11=<PROJECT_ID>
+project_id_GOV_11=<PROJECT_ID_GOV>
 dataset_11=data_retention
 
 [QUALITY_TEMPLATE]
