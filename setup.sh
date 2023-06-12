@@ -34,6 +34,8 @@ do
     gcloud services enable dataplex.googleapis.com
     gcloud services enable containerregistry.googleapis.com
     gcloud services enable dlp.googleapis.com 
+    gcloud services enable bigquerydatapolicy.googleapis.com
+    gcloud services enable cloudfunctions.googleapis.com
 done
 
 # Back to data project
@@ -78,3 +80,9 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \
   --role=roles/bigquery.dataViewer
 
+# Create a service account for tagging \
+gcloud config set project $PROJECT_ID_GOV
+gcloud iam service-accounts create tag-creator \
+    --description="Service account to manage tagging" \
+    --display-name="Tag Engine SA"
+gcloud config set project $PROJECT_ID
