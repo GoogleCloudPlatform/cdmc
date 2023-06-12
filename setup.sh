@@ -55,6 +55,11 @@ gcloud kms keys create ${KMS_KEYNAME} \
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member=serviceAccount:bq-${PROJECT_NUMBER}@bigquery-encryption.iam.gserviceaccount.com \
   --role=roles/cloudkms.cryptoKeyEncrypterDecrypter
+
+# Grant permission to the Data Catalog SA
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+  --member=serviceAccount:service-${PROJECT_NUMBER_GOV}@dlp-api.iam.gserviceaccount.com \
+  --role=roles/bigquery.admin
 ``
 # Create the CloudDQ dataset
 bq --location=${REGION} mk ${PROJECT_ID_GOV}:${CLOUDDQ_BIGQUERY_DATASET}
