@@ -14,7 +14,9 @@
 
 from google.cloud import dlp_v2
 from google.cloud import bigquery
+from google.api_core.exceptions import NotFound
 import os
+
 
 # Get project values from environment variables
 
@@ -26,6 +28,7 @@ result_project = os.getenv('PROJECT_ID_GOV')
 result_datasets = ['crm_dlp', 'finwire_dlp', 'hr_dlp', 'oltp_dlp','reference_dlp', 'sales_dlp']
 
 bq_client = bigquery.Client(project=inspect_project)
+bq_client_results = bigquery.Client(project=result_project)
 dlp_client = dlp_v2.DlpServiceClient()
 parent = dlp_client.common_project_path(result_project)
 
@@ -135,6 +138,16 @@ def start_job(inspect_dataset, table, result_dataset):
     
     #response = dlp_client.create_dlp_job(parent=parent, inspect_job=inspect_job_data)
     #print(response)
-    
+
+def create_output_datasets():
+    for dataset in result_datasets:
+        try:
+            bq_client_results.get_dataset(dataset)  # Checks if dataset exists.
+            print(f'Dataset {dataset} already exists')
+        except NotFound:
+            bq_client_results.create_dataset(dataset)  # Creates dataset if it doesn't exist.
+            print(f'Created results dataset {dataset}')
+
 if __name__ == '__main__':
+    create_output_datasets()
     inspect()
