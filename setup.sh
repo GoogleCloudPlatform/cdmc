@@ -17,6 +17,7 @@
 ## Including creating the required GCP services and setting up the 
 ## environment with the required dependencies
 source environment-variables.sh
+export GOOGLE_PROJECT=$PROJECT_ID_GOV
 
 # Activate the required APIs for all the projects
 declare -a PROJECTS=($PROJECT_ID $PROJECT_ID_GOV)
@@ -55,6 +56,11 @@ gcloud kms keys create ${KMS_KEYNAME} \
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member=serviceAccount:bq-${PROJECT_NUMBER}@bigquery-encryption.iam.gserviceaccount.com \
   --role=roles/cloudkms.cryptoKeyEncrypterDecrypter
+
+# Grant permission to the Data Catalog SA
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+  --member=serviceAccount:service-${PROJECT_NUMBER_GOV}@dlp-api.iam.gserviceaccount.com \
+  --role=roles/bigquery.admin
 ``
 # Create the CloudDQ dataset
 bq --location=${REGION} mk ${PROJECT_ID_GOV}:${CLOUDDQ_BIGQUERY_DATASET}
