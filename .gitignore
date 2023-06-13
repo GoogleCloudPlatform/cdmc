@@ -8,3 +8,7 @@ data-ingestion/tpcdi-data
 
 # Ignore user env script, only the example should be checked in
 environment-variables.sh
+report-engine/terraform/terraform.tfvars
+report-engine/terraform/.terraform.lock.hcl
+*.0_x5
+report-engine/terraform/terraform.tfstate

@@ -17,6 +17,7 @@
 ## Including creating the required GCP services and setting up the 
 ## environment with the required dependencies
 source environment-variables.sh
+export GOOGLE_PROJECT=$PROJECT_ID_GOV
 
 # Activate the required APIs for all the projects
 declare -a PROJECTS=($PROJECT_ID $PROJECT_ID_GOV)
