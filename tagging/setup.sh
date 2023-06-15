@@ -64,6 +64,14 @@ bq mk --location=$REGION --dataset entitlement_management
 bq mk --location=$REGION --dataset security_policy
 bq mk --location=$REGION --dataset remote_functions
 
+# Create dlp results datasets
+bq mk --location=$REGION --dataset crm_dlp
+bq mk --location=$REGION --dataset finwire_dlp
+bq mk --location=$REGION --dataset hr_dlp
+bq mk --location=$REGION --dataset oltp_dlp
+bq mk --location=$REGION --dataset reference_dlp
+bq mk --location=$REGION --dataset sales_dlp
+
 # Create the tables
 pushd ddl
 bq query --use_legacy_sql=false < create_data_classification_tables.sql
