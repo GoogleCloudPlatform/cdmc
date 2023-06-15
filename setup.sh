@@ -36,6 +36,7 @@ do
     gcloud services enable dlp.googleapis.com 
     gcloud services enable bigquerydatapolicy.googleapis.com
     gcloud services enable cloudfunctions.googleapis.com
+    gcloud services enable bigqueryconnection.googleapis.com
 done
 
 # Back to data project

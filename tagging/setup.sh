@@ -62,6 +62,7 @@ bq mk --location=$REGION --dataset data_retention
 bq mk --location=$REGION --dataset impact_assessment
 bq mk --location=$REGION --dataset entitlement_management
 bq mk --location=$REGION --dataset security_policy
+bq mk --location=$REGION --dataset remote_functions
 
 # Create the tables
 pushd ddl
