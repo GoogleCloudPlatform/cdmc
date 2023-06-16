@@ -17,17 +17,18 @@
 # in each of the subfolder in the /remote_functions folder
 
 # Environment variables
-pushd remote_functions
+pushd remote_functions/bytes_transferred
 # Create the Cloud Function
 gcloud functions deploy get_bytes_transferred \
 --runtime python37 \
 --trigger-http \
 --no-allow-unauthenticated \
 --ingress-settings internal-and-gclb \
---entry-point run \
---source ./bytes_transferred
+--entry-point event_handler \
+--source ./function
 
-source bytes_transferred/create_remote_function.sh
+source ./create_remote_function.sh
 popd
+
 
 
