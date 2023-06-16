@@ -1,18 +1,17 @@
-#!/bin/bash
-
-# Copyright 2023 The Reg Reporting Blueprint Authors
-
-# Licensed under the Apache License, Version 2.0 (the 'License');
+# Copyright 2023 Google, LLC.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
 # You may obtain a copy of the License at
-
-#     https://www.apache.org/licenses/LICENSE-2.0
-
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
 # Unless required by applicable law or agreed to in writing, software
-# distributed under the License is distributed on an 'AS IS' BASIS,
+# distributed under the License is distributed on an "AS IS" BASIS,
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
 
 # Set the environment variables
 # These must be configured by the user
@@ -35,13 +34,19 @@ export KMS_KEY="projects/${PROJECT_ID}/locations/${REGION}/keyRings/${KMS_KEYRIN
 # CloudDQ variables
 export CLOUDDQ_BIGQUERY_DATASET="cloud_dq"
 
+# Policy Tags
+export AUTHENTICATED_USER="$(gcloud config list account --format 'value(core.account)')"
+
+# Cloud Run
+export ENDPOINT="$(gcloud run services describe cdmc-reportengine --region $REGION --format='value(status.url)')"
+
 echo -e "\nYour environment variables have been initialised as follows:"
 echo -e "\n\nKey variables:"
 echo -e "\tORGANIZATION_ID                   :" $ORGANIZATION_ID
 echo -e "\tPROJECT_ID                        :" $PROJECT_ID
+echo -e "\tPROJECT_ID_GOV                    :" $PROJECT_ID_GOV
 echo -e "\tPROJECT_NUMBER                    :" $PROJECT_NUMBER
 echo -e "\tPROJECT_NUMBER_GOV                :" $PROJECT_NUMBER_GOV
-echo -e "\tPROJECT_ID_GOV                    :" $PROJECT_ID_GOV
 echo -e "\tREGION                            :" $REGION
            
 echo -e "\n\nData Load:"           
@@ -54,7 +59,11 @@ echo -e "\tKMS_KEY                           :" $KMS_KEY
 echo -e "\n\nData Quality:"
 echo -e "\tCLOUDDQ_BIGQUERY_DATASET          :" $CLOUDDQ_BIGQUERY_DATASET
 
+echo -e "\n\nTag Engine:"
+echo -e "\tAUTHENTICATED_USER                :" $AUTHENTICATED_USER
+
 echo -e "\n\nReport Engine:"
-echo -e "\tGOOGLE_PROJECT                        :" $GOOGLE_PROJECT
+echo -e "\tGOOGLE_PROJECT                    :" $GOOGLE_PROJECT
 
-
+echo -e "\n\nCloud Run:"
+echo -e "\tENDPOINT                          :" $ENDPOINT

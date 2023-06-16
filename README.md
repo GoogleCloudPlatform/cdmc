@@ -17,10 +17,15 @@ Before running the `setup.sh` script, make sure you have created and customised 
 ```
 cp environment_variables.example environment_variables.sh
 ```
+If at anypoint you need to set the environment variables, run the following command:
+```
+source environment_variables.sh
+```
+
 Onve you have customused the `environment_variables.sh`, create the infrastructure 
 using the `setup.sh` convenience script.
 ```
-. ./setup.sh
+source setup.sh
 ```
 
 #### Application default credentials

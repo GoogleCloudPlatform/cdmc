@@ -3,6 +3,13 @@ Make sure you have completed the steps in the [main README.md](../README.md) fir
 and in particular you have configured the `environment-variables.sh` and 
 created the requried infrastructure. 
 
+To set up your environment variables:
+```
+pushd ../
+source environment-variables.sh 
+popd
+```
+
 ### Data Ingestion 
 
 The data ingestion aspects of the solution include copying the sample data to a 
@@ -30,6 +37,10 @@ Your folder should look like this.
     * Install the required dependencies
     * Load the data to GCS
     * Load the data from GCS to BQ
+
+    ```
+    source load_data.sh
+    ```
 
 1. Once the script has completed, check whether the data is present in [BigQuery](https://pantheon.corp.google.com/bigquery)
 

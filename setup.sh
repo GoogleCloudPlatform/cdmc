@@ -25,6 +25,7 @@ do
     :
     echo -e "\nActivating APIs in $p"
     gcloud config set project $p
+    gcloud services enable bigquery.googleapis.com
     gcloud services enable datalineage.googleapis.com
     gcloud services enable cloudkms.googleapis.com
     gcloud services enable resourcesettings.googleapis.com 
@@ -32,7 +33,7 @@ do
     gcloud services enable cloudbuild.googleapis.com
     gcloud services enable run.googleapis.com
     gcloud services enable dataplex.googleapis.com
-    gcloud services eenable containerregistry.googleapis.com
+    gcloud services enable containerregistry.googleapis.com
 done
 
 # Back to data project
