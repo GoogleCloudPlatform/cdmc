@@ -18,13 +18,14 @@ from __future__ import print_function
 from google.cloud import bigquery
 import base64
 import json
+import os
 
-DATA_TRANSFER_LOG_TABLE = 'sdw-conf-b1927e-bcc1.bigquery_log_sink.bigquerydatatransfer_googleapis_com_transfer_config'
+BIGQUERY_PROJECT = os.environ.get('PROJECT_ID') 
+DATA_TRANSFER_LOG_TABLE = f'{BIGQUERY_PROJECT}.bigquery_log_sink.bigquerydatatransfer_googleapis_com_transfer_config'
 LAST_30_DAYS = ('(select date(year, month, 01) from (select extract(year from current_date) as year,' 
                ' extract(month from current_date) as month))')
 
-BIGQUERY_PROJECT = 'sdw-conf-b1927e-bcc1' # this is the destination project in which the audit logs reside
-                                          # we are attributing egress charges to the destination project
+
 
 bq_client = bigquery.Client(project=BIGQUERY_PROJECT)
 

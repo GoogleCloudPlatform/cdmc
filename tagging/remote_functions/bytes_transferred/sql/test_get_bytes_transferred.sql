@@ -1,1 +1,0 @@
-select `sdw-data-gov-b1927e-dd69`.remote_functions.get_bytes_transferred('bytes', 'sdw-conf-b1927e-bcc1', 'crm', 'AddAcct');

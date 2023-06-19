@@ -19,6 +19,7 @@
 export PROJECT_ID= YOURVALUE
 export PROJECT_ID_GOV= YOURVALUE
 export REGION= YOURVALUE
+export SERVICE_ACCOUNT_EMAIL= YORVALUE
 
 # Data Load variables
 export PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format="value(projectNumber)")
@@ -27,6 +28,9 @@ export PROJECT_NUMBER_GOV=$(gcloud projects describe $PROJECT_ID_GOV --format="v
 export KMS_KEYRING=cmek-keyring-bigquery
 export KMS_KEYNAME=cmek-bigquery-key
 export KMS_KEY="projects/${PROJECT_ID}/locations/${REGION}/keyRings/${KMS_KEYRING}/cryptoKeys/${KMS_KEYNAME}"
+
+# Tagging Variables
+export TAG_CREATOR_SA="tag-creator@${PROJECT_ID_GOV}.iam.gserviceaccount.com"
 
 # CloudDQ variables
 export CLOUDDQ_BIGQUERY_DATASET="cloud_dq"
@@ -40,6 +44,8 @@ echo -e "\tPROJECT_NUMBER                    :" $PROJECT_NUMBER
 echo -e "\tPROJECT_NUMBER_GOV                :" $PROJECT_NUMBER_GOV
 echo -e "\tPROJECT_ID_GOV                    :" $PROJECT_ID_GOV
 echo -e "\tREGION                            :" $REGION
+
+echo -e "\tTAG_CREATOR_SA                    :" $TAG_CREATOR_SA
            
 echo -e "\n\nData Load:"           
 echo -e "\tGCS_BUCKET_TPCDI                  :" $GCS_BUCKET_TPCDI

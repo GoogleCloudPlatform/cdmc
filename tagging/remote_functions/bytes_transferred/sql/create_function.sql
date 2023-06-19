@@ -1,6 +1,6 @@
-CREATE OR REPLACE FUNCTION `cdmc-gov-388611.remote_functions`.get_bytes_transferred(mode STRING, 
+CREATE OR REPLACE FUNCTION `PROJECT_ID_GOV.remote_functions`.get_bytes_transferred(mode STRING, 
 											project STRING, dataset STRING, table STRING) RETURNS FLOAT64 
-REMOTE WITH CONNECTION `cdmc-gov-388611.us-central1.remote-function-connection` 
+REMOTE WITH CONNECTION `PROJECT_ID_GOV.REGION.remote-function-connection` 
 OPTIONS 
-(endpoint = 'https://us-central1-cdmc-gov-388611.cloudfunctions.net/get_bytes_transferred'
+(endpoint = 'https://REGION-PROJECT_ID_GOV.cloudfunctions.net/get_bytes_transferred'
 );

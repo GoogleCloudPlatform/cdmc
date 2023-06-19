@@ -14,21 +14,76 @@
 
 
 # This script creates a Python Cloud Function with requirements.txt and main.py
-# in each of the subfolder in the /remote_functions folder
+# in each of the subfolder in the /remote_functions folder.
+# Function names are consistent with folder names
 
 # Environment variables
 pushd remote_functions/bytes_transferred
-# Create the Cloud Function
+#Create the Cloud Function
 gcloud functions deploy get_bytes_transferred \
 --runtime python37 \
 --trigger-http \
 --no-allow-unauthenticated \
 --ingress-settings internal-and-gclb \
 --entry-point event_handler \
---source ./function
+--source ./function \
+--set-env-vars REGION=$REGION,PROJECT_ID=$PROJECT_ID
 
 source ./create_remote_function.sh
 popd
 
+pushd remote_functions/location_policy
+#Create the Cloud Function
+gcloud functions deploy get_location_policy \
+--runtime python37 \
+--trigger-http \
+--no-allow-unauthenticated \
+--ingress-settings internal-and-gclb \
+--entry-point event_handler \
+--source ./function \
+--set-env-vars REGION=$REGION,PROJECT_ID=$PROJECT_ID
 
+source ./create_remote_function.sh
+popd
 
+pushd remote_functions/masking_rule
+#Create the Cloud Function
+gcloud functions deploy get_masking_rule \
+--runtime python37 \
+--trigger-http \
+--no-allow-unauthenticated \
+--ingress-settings internal-and-gclb \
+--entry-point event_handler \
+--source ./function \
+--set-env-vars REGION=$REGION,PROJECT_ID=$PROJECT_ID
+
+source ./create_remote_function.sh
+popd
+
+pushd remote_functions/table_encryption_method
+#Create the Cloud Function
+gcloud functions deploy get_table_encryption_method \
+--runtime python37 \
+--trigger-http \
+--no-allow-unauthenticated \
+--ingress-settings internal-and-gclb \
+--entry-point event_handler \
+--source ./function \
+--set-env-vars REGION=$REGION,PROJECT_ID=$PROJECT_ID
+
+source ./create_remote_function.sh
+popd
+
+pushd remote_functions/ultimate_source
+#Create the Cloud Function
+gcloud functions deploy get_ultimate_source \
+--runtime python37 \
+--trigger-http \
+--no-allow-unauthenticated \
+--ingress-settings internal-and-gclb \
+--entry-point process_request \
+--source ./function \
+--set-env-vars REGION=$REGION,PROJECT_ID=$PROJECT_ID
+
+source ./create_remote_function.sh
+popd

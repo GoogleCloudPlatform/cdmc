@@ -18,6 +18,17 @@
 ## environment with the required dependencies
 source environment-variables.sh
 
+
+# Grant the service account used to run the setup the `serviceusage.services.enable` role.
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+    --member="user:$SERVICE_ACCOUNT_EMAIL" \
+    --role="roles/serviceusage.serviceUsageAdmin"
+
+gcloud projects add-iam-policy-binding $PROJECT_ID_GOV \
+    --member="user:$SERVICE_ACCOUNT_EMAIL" \
+    --role="roles/serviceusage.serviceUsageAdmin"
+
+
 # Activate the required APIs for all the projects
 declare -a PROJECTS=($PROJECT_ID $PROJECT_ID_GOV)
 for p in "${PROJECTS[@]}"
@@ -37,6 +48,7 @@ do
     gcloud services enable bigquerydatapolicy.googleapis.com
     gcloud services enable cloudfunctions.googleapis.com
     gcloud services enable bigqueryconnection.googleapis.com
+    gcloud services enable organization-policy.googleapis.com
 done
 
 # Back to data project
