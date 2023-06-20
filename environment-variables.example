@@ -33,6 +33,9 @@ export CLOUDDQ_BIGQUERY_DATASET="cloud_dq"
 #export CLOUDDQ_GOOGLE_CLOUD_PROJECT=${PROJECT_ID_GOV}
 #export CLOUDDQ_BIGQUERY_REGION=${REGION}
 
+# Tagging variables
+export TAG_HISTORY_BIGQUERY_DATASET="tag_history_logs"
+
 echo -e "\nYour environment variables have been initialised as follows:"
 echo -e "\n\nKey variables:"
 echo -e "\tPROJECT_ID                        :" $PROJECT_ID

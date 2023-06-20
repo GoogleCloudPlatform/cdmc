@@ -1,39 +1,39 @@
 {
     "template_id": "correctness_template",
-    "template_project": "sdw-data-gov-b1927e-dd69",
-    "template_region": "us-central1",
+    "template_project": "PROJECT_ID_GOV",
+    "template_region": "REGION",
     "fields": [
         {
             "field_id": "column_name",
-            "query_expression": "select distinct column_id from sdw-data-gov-b1927e-dd69.cloud_dq.dq_summary where dimension in ('CONFORMANCE', 'CONSISTENCY') and column_id = '$column' and ends_with(table_id, '$table')"
+            "query_expression": "select distinct column_id from PROJECT_ID_GOV.cloud_dq.dq_summary where dimension in ('CONFORMANCE', 'CONSISTENCY') and column_id = '$column' and ends_with(table_id, '$table')"
         },
         {
             "field_id": "metric",
-            "query_expression": "select rule_id from sdw-data-gov-b1927e-dd69.cloud_dq.dq_summary where dimension in ('CONFORMANCE', 'CONSISTENCY') and column_id = '$column' and ends_with(table_id, '$table') order by last_modified desc limit 1"
+            "query_expression": "select rule_id from PROJECT_ID_GOV.cloud_dq.dq_summary where dimension in ('CONFORMANCE', 'CONSISTENCY') and column_id = '$column' and ends_with(table_id, '$table') order by last_modified desc limit 1"
         },
         {
             "field_id": "rows_validated",
-            "query_expression": "select rows_validated from sdw-data-gov-b1927e-dd69.cloud_dq.dq_summary where dimension in ('CONFORMANCE', 'CONSISTENCY') and column_id = '$column' and ends_with(table_id, '$table') order by last_modified desc limit 1"
+            "query_expression": "select rows_validated from PROJECT_ID_GOV.cloud_dq.dq_summary where dimension in ('CONFORMANCE', 'CONSISTENCY') and column_id = '$column' and ends_with(table_id, '$table') order by last_modified desc limit 1"
         },
         {
             "field_id": "success_percentage",
-            "query_expression": "select round(success_percentage,4) from sdw-data-gov-b1927e-dd69.cloud_dq.dq_summary where dimension in ('CONFORMANCE', 'CONSISTENCY') and column_id = '$column' and ends_with(table_id, '$table') order by last_modified desc limit 1"
+            "query_expression": "select round(success_percentage,4) from PROJECT_ID_GOV.cloud_dq.dq_summary where dimension in ('CONFORMANCE', 'CONSISTENCY') and column_id = '$column' and ends_with(table_id, '$table') order by last_modified desc limit 1"
         },
         {
             "field_id": "acceptable_threshold",
-            "query_expression": "select cast(regexp_replace(metadata_json_string,'[^0-9.]','0') as float64) from sdw-data-gov-b1927e-dd69.cloud_dq.dq_summary where dimension in ('CONFORMANCE', 'CONSISTENCY') and column_id = '$column' and ends_with(table_id, '$table') order by last_modified desc limit 1"
+            "query_expression": "select cast(regexp_replace(metadata_json_string,'[^0-9.]','0') as float64) from PROJECT_ID_GOV.cloud_dq.dq_summary where dimension in ('CONFORMANCE', 'CONSISTENCY') and column_id = '$column' and ends_with(table_id, '$table') order by last_modified desc limit 1"
         },
         {
             "field_id": "meets_threshold",
-            "query_expression": "select case when score = 1 then true when score >= threshold then true else false end from (select round(success_percentage,4) as score, cast(regexp_replace(metadata_json_string,'[^0-9.]','0') as float64) as threshold from sdw-data-gov-b1927e-dd69.cloud_dq.dq_summary where dimension in ('CONFORMANCE', 'CONSISTENCY') and column_id = '$column' and ends_with(table_id, '$table') order by last_modified desc limit 1)"
+            "query_expression": "select case when score = 1 then true when score >= threshold then true else false end from (select round(success_percentage,4) as score, cast(regexp_replace(metadata_json_string,'[^0-9.]','0') as float64) as threshold from PROJECT_ID_GOV.cloud_dq.dq_summary where dimension in ('CONFORMANCE', 'CONSISTENCY') and column_id = '$column' and ends_with(table_id, '$table') order by last_modified desc limit 1)"
         },
         {
             "field_id": "most_recent_run",
-            "query_expression": "select datetime(last_modified) from sdw-data-gov-b1927e-dd69.cloud_dq.dq_summary where dimension in ('CONFORMANCE', 'CONSISTENCY') and column_id = '$column' and ends_with(table_id, '$table') order by last_modified desc limit 1"
+            "query_expression": "select datetime(last_modified) from PROJECT_ID_GOV.cloud_dq.dq_summary where dimension in ('CONFORMANCE', 'CONSISTENCY') and column_id = '$column' and ends_with(table_id, '$table') order by last_modified desc limit 1"
         }
     ],
-    "included_columns_query": "select distinct column_id from sdw-data-gov-b1927e-dd69.cloud_dq.dq_summary where dimension in ('CONFORMANCE', 'CONSISTENCY') and ends_with(table_id, '$table')",
-	"included_tables_uris": "bigquery/project/sdw-conf-b1927e-bcc1/dataset/hr/*",
+    "included_columns_query": "select distinct column_id from PROJECT_ID_GOV.cloud_dq.dq_summary where dimension in ('CONFORMANCE', 'CONSISTENCY') and ends_with(table_id, '$table')",
+	"included_tables_uris": "bigquery/project/PROJECT_ID/dataset/hr/*",
     "refresh_mode": "ON_DEMAND",
     "tag_history": true,
     "tag_stream": false  

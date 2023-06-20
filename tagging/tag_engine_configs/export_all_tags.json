@@ -1,9 +1,9 @@
 {
-    "source_projects": ["sdw-conf-b1927e-bcc1"],
-	"source_region": "us-central1", 
-	"target_project": "sdw-data-gov-b1927e-dd69",
+    "source_projects": ["PROJECT_ID"],
+	"source_region": "REGION", 
+	"target_project": "PROJECT_ID_GOV",
 	"target_dataset": "tag_exports",
-	"target_region": "us-central1",
+	"target_region": "REGION",
 	"write_option": "truncate",
     "refresh_mode": "ON_DEMAND"
 }

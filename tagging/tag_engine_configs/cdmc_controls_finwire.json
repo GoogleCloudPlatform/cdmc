@@ -1,66 +1,66 @@
 {
     "template_id": "cdmc_controls",
-    "template_project": "sdw-data-gov-b1927e-dd69",
-    "template_region": "us-central1",
+    "template_project": "PROJECT_ID_GOV",
+    "template_region": "REGION",
     "fields": [
         {
             "field_id": "is_sensitive",
-            "query_expression": "select count(*) > 0 from sdw-data-gov-b1927e-dd69.tag_history_logs.data_sensitivity where sensitive_field = True and starts_with(asset_name, '$project/dataset/$dataset/table/$table/')"
+            "query_expression": "select count(*) > 0 from PROJECT_ID_GOV.tag_history_logs.data_sensitivity where sensitive_field = True and starts_with(asset_name, '$project/dataset/$dataset/table/$table/')"
         },
         {
             "field_id": "sensitive_category",
-            "query_expression": "select sensitive_type from sdw-data-gov-b1927e-dd69.tag_history_logs.data_sensitivity ds join sdw-data-gov-b1927e-dd69.data_classification.infotype_classification ic on ds.sensitive_type = ic.classification_result where starts_with(asset_name, '$project/dataset/$dataset/table/$table/') order by event_time desc limit 1"
+            "query_expression": "select sensitive_type from PROJECT_ID_GOV.tag_history_logs.data_sensitivity ds join PROJECT_ID_GOV.data_classification.infotype_classification ic on ds.sensitive_type = ic.classification_result where starts_with(asset_name, '$project/dataset/$dataset/table/$table/') order by event_time desc limit 1"
         },
         {
             "field_id": "is_authoritative",
-        	"query_expression": "select distinct result from (select case when exists (select 1 from sdw-data-gov-b1927e-dd69.entitlement_management.data_asset where starts_with(data_asset_name, '$project.$dataset.') and is_authoritative = true) then true else false end as result)"
+        	"query_expression": "select distinct result from (select case when exists (select 1 from PROJECT_ID_GOV.entitlement_management.data_asset where starts_with(data_asset_name, '$project.$dataset.') and is_authoritative = true) then true else false end as result)"
 		},
         {
             "field_id": "data_owner_name",
-            "query_expression": "select distinct data_owner_name from sdw-data-gov-b1927e-dd69.entitlement_management.data_asset where replace(data_asset_name, '*', '') like '$project.$dataset%'"
+            "query_expression": "select distinct data_owner_name from PROJECT_ID_GOV.entitlement_management.data_asset where replace(data_asset_name, '*', '') like '$project.$dataset%'"
         },
         {
             "field_id": "data_owner_email",
-            "query_expression": "select distinct data_owner_email from sdw-data-gov-b1927e-dd69.entitlement_management.data_asset where replace(data_asset_name, '*', '') like '$project.$dataset%'"
+            "query_expression": "select distinct data_owner_email from PROJECT_ID_GOV.entitlement_management.data_asset where replace(data_asset_name, '*', '') like '$project.$dataset%'"
         },
         {
             "field_id": "approved_storage_location",
-            "query_expression": "select `sdw-data-gov-b1927e-dd69`.remote_functions.get_location_policy('$project')"
+            "query_expression": "select `PROJECT_ID_GOV`.remote_functions.get_location_policy('$project')"
         },
         {
             "field_id": "approved_use",
-            "query_expression": "select distinct use_description from sdw-data-gov-b1927e-dd69.entitlement_management.use_purpose p  join sdw-data-gov-b1927e-dd69.entitlement_management.data_asset d on p.data_asset_id = d.data_asset_id and d.data_asset_name like '$project.$dataset%' order by use_description"
+            "query_expression": "select distinct use_description from PROJECT_ID_GOV.entitlement_management.use_purpose p  join PROJECT_ID_GOV.entitlement_management.data_asset d on p.data_asset_id = d.data_asset_id and d.data_asset_name like '$project.$dataset%' order by use_description"
         },
         {
             "field_id": "ultimate_source",
-            "query_expression": "select `sdw-data-gov-b1927e-dd69`.remote_functions.get_ultimate_source('$project', 707062315533, 'us-central1', '$dataset', '$table');"
+            "query_expression": "select `PROJECT_ID_GOV`.remote_functions.get_ultimate_source('$project', 707062315533, 'REGION', '$dataset', '$table');"
         },
         {
             "field_id": "sharing_scope_geography",
-            "query_expression": "select distinct sharing_scope_geography from sdw-data-gov-b1927e-dd69.entitlement_management.provider_agreement p join sdw-data-gov-b1927e-dd69.entitlement_management.data_asset d on p.data_asset_id = d.data_asset_id and d.data_asset_name like '$project.$dataset%' order by sharing_scope_geography"
+            "query_expression": "select distinct sharing_scope_geography from PROJECT_ID_GOV.entitlement_management.provider_agreement p join PROJECT_ID_GOV.entitlement_management.data_asset d on p.data_asset_id = d.data_asset_id and d.data_asset_name like '$project.$dataset%' order by sharing_scope_geography"
         },
         {
             "field_id": "sharing_scope_legal_entity",
-            "query_expression": "select distinct sharing_scope_legal_entity from sdw-data-gov-b1927e-dd69.entitlement_management.provider_agreement p join sdw-data-gov-b1927e-dd69.entitlement_management.data_asset d on p.data_asset_id = d.data_asset_id and d.data_asset_name like '$project.$dataset%' order by sharing_scope_legal_entity"
+            "query_expression": "select distinct sharing_scope_legal_entity from PROJECT_ID_GOV.entitlement_management.provider_agreement p join PROJECT_ID_GOV.entitlement_management.data_asset d on p.data_asset_id = d.data_asset_id and d.data_asset_name like '$project.$dataset%' order by sharing_scope_legal_entity"
         },
         {
             "field_id": "encryption_method",
-            "query_expression": "select `sdw-data-gov-b1927e-dd69`.remote_functions.get_encryption_type('$project', '$dataset', '$table');"
+            "query_expression": "select `PROJECT_ID_GOV`.remote_functions.get_encryption_type('$project', '$dataset', '$table');"
         },
         {
             "field_id": "retention_period",
-            "query_expression": "select distinct retention_period_days from sdw-data-gov-b1927e-dd69.data_retention.retention_policy where sensitive_category in (select sensitive_type from sdw-data-gov-b1927e-dd69.tag_history_logs.data_sensitivity ds join sdw-data-gov-b1927e-dd69.data_classification.infotype_classification ic on ds.sensitive_type = ic.classification_result where starts_with(asset_name, '$project/dataset/$dataset/table/$table/'))"
+            "query_expression": "select distinct retention_period_days from PROJECT_ID_GOV.data_retention.retention_policy where sensitive_category in (select sensitive_type from PROJECT_ID_GOV.tag_history_logs.data_sensitivity ds join PROJECT_ID_GOV.data_classification.infotype_classification ic on ds.sensitive_type = ic.classification_result where starts_with(asset_name, '$project/dataset/$dataset/table/$table/'))"
         },
         {
             "field_id": "expiration_action",
-            "query_expression": "select distinct expiration_action from sdw-data-gov-b1927e-dd69.data_retention.retention_policy where sensitive_category in (select sensitive_type from sdw-data-gov-b1927e-dd69.tag_history_logs.data_sensitivity ds join sdw-data-gov-b1927e-dd69.data_classification.infotype_classification ic on ds.sensitive_type = ic.classification_result where starts_with(asset_name, '$project/dataset/$dataset/table/$table/'))"
+            "query_expression": "select distinct expiration_action from PROJECT_ID_GOV.data_retention.retention_policy where sensitive_category in (select sensitive_type from PROJECT_ID_GOV.tag_history_logs.data_sensitivity ds join PROJECT_ID_GOV.data_classification.infotype_classification ic on ds.sensitive_type = ic.classification_result where starts_with(asset_name, '$project/dataset/$dataset/table/$table/'))"
         },
 		{
             "field_id": "most_recent_tag_update",
             "query_expression": "select current_datetime"
 		}
     ],
-    "included_tables_uris": "bigquery/project/sdw-conf-b1927e-bcc1/dataset/finwire/*",
+    "included_tables_uris": "bigquery/project/PROJECT_ID/dataset/finwire/*",
     "refresh_mode": "ON_DEMAND",
     "tag_history": true,
     "tag_stream": false  

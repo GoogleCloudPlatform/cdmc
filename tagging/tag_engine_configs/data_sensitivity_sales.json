@@ -1,7 +1,7 @@
 {
     "template_id": "data_sensitivity",
-    "template_project": "sdw-data-gov-b1927e-dd69",
-    "template_region": "us-central1",
+    "template_project": "PROJECT_ID_GOV",
+    "template_region": "REGION",
     "fields": [
         {
             "field_id": "sensitive_field"
@@ -10,12 +10,12 @@
             "field_id": "sensitive_type"
         }
     ],
-    "dlp_dataset": "bigquery/project/sdw-data-gov-b1927e-dd69/dataset/sales_dlp",
-	"infotype_selection_table": "bigquery/project/sdw-data-gov-b1927e-dd69/dataset/data_classification/infotype_selection",
-	"infotype_classification_table": "bigquery/project/sdw-data-gov-b1927e-dd69/dataset/data_classification/infotype_classification",
-	"included_tables_uris": "bigquery/project/sdw-conf-b1927e-bcc1/dataset/sales/*",
+    "dlp_dataset": "bigquery/project/PROJECT_ID_GOV/dataset/sales_dlp",
+	"infotype_selection_table": "bigquery/project/PROJECT_ID_GOV/dataset/data_classification/infotype_selection",
+	"infotype_classification_table": "bigquery/project/PROJECT_ID_GOV/dataset/data_classification/infotype_classification",
+	"included_tables_uris": "bigquery/project/PROJECT_ID/dataset/sales/*",
     "create_policy_tags": true,
-    "taxonomy_id": "projects/sdw-data-gov-b1927e-dd69/locations/us-central1/taxonomies/730755508715999596",
+    "taxonomy_id": "projects/PROJECT_ID_GOV/locations/REGION/taxonomies/730755508715999596",
     "refresh_mode": "ON_DEMAND",
     "tag_history": true,
     "tag_stream": false   
