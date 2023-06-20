@@ -13,16 +13,16 @@ Create two projects, as follows:
 The CDMC architecture relies on a number of GCP component which need to be provisioned.
 The `setup.sh` script creates the necessary components. 
 Before running the `setup.sh` script, make sure you have created and customised your 
-`environment_variables.sh` file, using `environment_variables.example` as a template.
+`environment-variables.sh` file, using `environment-variables.example` as a template.
 ```
-cp environment_variables.example environment_variables.sh
+cp environment-variables.example environment-variables.sh
 ```
 If at anypoint you need to set the environment variables, run the following command:
 ```
-source environment_variables.sh
+source environment-variables.sh
 ```
 
-Onve you have customused the `environment_variables.sh`, create the infrastructure 
+Onve you have customised the `environment-variables.sh`, create the infrastructure 
 using the `setup.sh` convenience script.
 ```
 source setup.sh
