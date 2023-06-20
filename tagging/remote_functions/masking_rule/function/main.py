@@ -16,11 +16,12 @@
 
 import base64
 import json
+import os
 from google.cloud import bigquery
 from google.cloud.bigquery import datapolicies
 
-DATA_GOV_PROJECT = 'sdw-data-gov-b1927e-dd69'  # replace with your project id
-BIGQUERY_REGION = 'us-central1'                # replace with your GCP region
+DATA_GOV_PROJECT = os.environ.get('PROJECT_ID_GOV')  # replace with your project id
+BIGQUERY_REGION = os.environ.get('REGION')               # replace with your GCP region
 TAG_HISTORY_TABLE = 'tag_history_logs'         # replace with your tag history table in Tag Engine
 
 def event_handler(request):

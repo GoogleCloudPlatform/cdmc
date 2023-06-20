@@ -14,30 +14,30 @@
 
 taxonomy: 
   name: sensitive_data_classification
-  project: sdw-data-gov-b1927e-dd69
-  region: us-central1
+  project: <PROJECT_ID_GOV>
+  region: <REGION>
   policy_tags:
     Personal_Identifiable_Information:
-      fine_grained_readers: [tag-creator@sdw-data-gov-b1927e-dd69.iam.gserviceaccount.com]
+      fine_grained_readers: [tag-creator@<PROJECT_ID_GOV>.iam.gserviceaccount.com]
       masking_rules:
         - policy_name: personal_identifiable_information_policy
           masking_type: hash
-          masked_readers: [marktomlinson@secure-blueprint-demo-one.ongcp.co, scohen@secure-blueprint-demo-one.ongcp.co]
+          masked_readers: [<AUTHENTICATED_USER>]
     Personal_Information:
-      fine_grained_readers: [tag-creator@sdw-data-gov-b1927e-dd69.iam.gserviceaccount.com]
+      fine_grained_readers: [tag-creator@<PROJECT_ID_GOV>.iam.gserviceaccount.com]
       masking_rules:
         - policy_name: personal_information_policy
           masking_type: default
-          masked_readers: [marktomlinson@secure-blueprint-demo-one.ongcp.co, scohen@secure-blueprint-demo-one.ongcp.co]
+          masked_readers: [<AUTHENTICATED_USER>]
     Sensitive_Personal_Identifiable_Information:
-      fine_grained_readers: [tag-creator@sdw-data-gov-b1927e-dd69.iam.gserviceaccount.com]
+      fine_grained_readers: [tag-creator@<PROJECT_ID_GOV>.iam.gserviceaccount.com]
       masking_rules:
         - policy_name: sensitive_personal_identifiable_information_policy
           masking_type: nullify
-          masked_readers: [marktomlinson@secure-blueprint-demo-one.ongcp.co, scohen@secure-blueprint-demo-one.ongcp.co]
+          masked_readers: [<AUTHENTICATED_USER>]
     Sensitive_Personal_Information:
-      fine_grained_readers: [tag-creator@sdw-data-gov-b1927e-dd69.iam.gserviceaccount.com]
+      fine_grained_readers: [tag-creator@<PROJECT_ID_GOV>.iam.gserviceaccount.com]
       masking_rules:
         - policy_name: sensitive_personal_information_policy
           masking_type: default
-          masked_readers: [marktomlinson@secure-blueprint-demo-one.ongcp.co, scohen@secure-blueprint-demo-one.ongcp.co]
+          masked_readers: [<AUTHENTICATED_USER>]

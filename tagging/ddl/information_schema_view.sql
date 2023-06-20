@@ -1,6 +1,5 @@
 create or replace view entitlement_management.information_schema_view as 
 select * from (
-select * from (
 SELECT
     cast(i.start_time as date) as job_date,
 	i.user_email AS user_id,

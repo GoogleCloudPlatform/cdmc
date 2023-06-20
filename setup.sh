@@ -19,6 +19,17 @@
 source environment-variables.sh
 export GOOGLE_PROJECT=$PROJECT_ID_GOV
 
+
+# Grant the service account used to run the setup the `serviceusage.services.enable` role.
+gcloud projects add-iam-policy-binding $PROJECT_ID \
+    --member="user:$SERVICE_ACCOUNT_EMAIL" \
+    --role="roles/serviceusage.serviceUsageAdmin"
+
+gcloud projects add-iam-policy-binding $PROJECT_ID_GOV \
+    --member="user:$SERVICE_ACCOUNT_EMAIL" \
+    --role="roles/serviceusage.serviceUsageAdmin"
+
+
 # Activate the required APIs for all the projects
 declare -a PROJECTS=($PROJECT_ID $PROJECT_ID_GOV)
 for p in "${PROJECTS[@]}"
@@ -35,6 +46,10 @@ do
     gcloud services enable dataplex.googleapis.com
     gcloud services enable containerregistry.googleapis.com
     gcloud services enable dlp.googleapis.com 
+    gcloud services enable bigquerydatapolicy.googleapis.com
+    gcloud services enable cloudfunctions.googleapis.com
+    gcloud services enable bigqueryconnection.googleapis.com
+    gcloud services enable organization-policy.googleapis.com
 done
 
 # Back to data project
@@ -84,3 +99,9 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \
   --role=roles/bigquery.dataViewer
 
+# Create a service account for tagging \
+gcloud config set project $PROJECT_ID_GOV
+gcloud iam service-accounts create tag-creator \
+    --description="Service account to manage tagging" \
+    --display-name="Tag Engine SA"
+gcloud config set project $PROJECT_ID

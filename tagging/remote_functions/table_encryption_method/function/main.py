@@ -18,8 +18,9 @@ from google.cloud import kms_v1
 from google.cloud import bigquery
 import base64
 import json
+import os
 
-BIGQUERY_REGION = 'us-central1'
+BIGQUERY_REGION = os.environ.get('REGION')
 
 def event_handler(request):
     
