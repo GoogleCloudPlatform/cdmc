@@ -65,6 +65,9 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID} \
 # Create the CloudDQ dataset
 bq --location=${REGION} mk ${PROJECT_ID_GOV}:${CLOUDDQ_BIGQUERY_DATASET}
 
+# Create the Tag History dataset
+bq --location=${REGION} mk ${PROJECT_ID_GOV}:${TAG_HISTORY_BIGQUERY_DATASET}
+
 # Grant permission to the CEs service accounts in the governance project
 gcloud projects add-iam-policy-binding ${PROJECT_ID_GOV} \
   --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \

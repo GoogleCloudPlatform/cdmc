@@ -33,7 +33,8 @@ export CLOUDDQ_BIGQUERY_DATASET="cloud_dq"
 #export CLOUDDQ_GOOGLE_CLOUD_PROJECT=${PROJECT_ID_GOV}
 #export CLOUDDQ_BIGQUERY_REGION=${REGION}
 
-# Tagging variables
+# Tagging Variables
+export TAG_CREATOR_SA="tag-creator@${PROJECT_ID_GOV}.iam.gserviceaccount.com"
 export TAG_HISTORY_BIGQUERY_DATASET="tag_history_logs"
 
 echo -e "\nYour environment variables have been initialised as follows:"
@@ -53,6 +54,10 @@ echo -e "\tKMS_KEY                           :" $KMS_KEY
 
 echo -e "\n\nData Quality:"
 echo -e "\tCLOUDDQ_BIGQUERY_DATASET          :" $CLOUDDQ_BIGQUERY_DATASET
+
+echo -e "\n\nTagging:"
+echo -e "\tTAG_CREATOR_SA                    :" $TAG_CREATOR_SA
+echo -e "\tTAG_HISTORY_BIGQUERY_DATASET      :" $TAG_HISTORY_BIGQUERY_DATASET
 
 
 
