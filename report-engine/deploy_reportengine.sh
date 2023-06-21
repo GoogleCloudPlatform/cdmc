@@ -26,16 +26,46 @@ sed -i "s/<PROJECT_ID_GOV>/$PROJECT_ID_GOV/" config.ini
 sed -i "s/<REGION>/$REGION/" config.ini
 popd
 
-
-## Deploy to cloud run
 # Make sure operations happen on the governance project
 gcloud config set project $PROJECT_ID_GOV
 
+###########################
+# Create a SA for cloud run
+###########################
+gcloud iam service-accounts create cdmc-reportengine \
+    --description="A service account that runs the CDMC Controls Engines" \
+    --display-name="cdmc-reportengine"
+
+gcloud projects add-iam-policy-binding $BIGQUERY_PROJECT \
+	--member=serviceAccount:$REPORTENGINE_SA \
+	--role=roles/bigquery.dataEditor
+	
+gcloud projects add-iam-policy-binding $BIGQUERY_PROJECT \
+	--member=serviceAccount:$REPORTENGINE_SA \
+	--role=roles/bigquery.jobUser
+
+gcloud projects add-iam-policy-binding $BIGQUERY_PROJECT \
+	--member=serviceAccount:$REPORTENGINE_SA \
+	--role=roles/bigquery.metadataViewer
+
+######################
+## Deploy to cloud run
+######################
+
+# Generate token
+gcloud auth application-default login
+export OAUTH_TOKEN=$(gcloud auth application-default print-access-token)
+
+
 # Create a job in Cloud Run. Note parameters have to be passed here
-gcloud run deploy cdmc-reportengine --image gcr.io/$PROJECT_ID_GOV/cdmc-reportengine --region $REGION --allow-unauthenticated
+gcloud run deploy cdmc-reportengine \
+    --image gcr.io/$PROJECT_ID_GOV/cdmc-reportengine \
+    --region $REGION \
+    --service-account=$REPORTENGINE_SA
+
 
 # Export the endpoint in an environment variable (moved to env variables.sh)
-#export ENDPOINT="$(gcloud run services describe cdmc-reportengine --region $REGION --format='value(status.url)')"
+export ENDPOINT="$(gcloud run services describe cdmc-reportengine --region $REGION --format='value(status.url)')"
 
 # Grant access to the authenticated user
-gcloud beta run services add-iam-policy-binding --region=us-central1 --member=user:$AUTHENTICATED_USER --role=roles/run.invoker cdmc-reportengine
+gcloud run services add-iam-policy-binding cdmc-reportengine --member=user:$AUTHENTICATED_USER --role=roles/run.invoker 

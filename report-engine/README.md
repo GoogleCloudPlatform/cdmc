@@ -83,18 +83,15 @@ CDMC Report Engine is a Flask web application. The following request parameters 
 
 - (Mandatory) orgId=<INTEGER> the GCP Organization ID of the inspection;
 - (Mandatory) projectId=<STRING> the GCP Project ID to be inspected;
-- (Mandatory) projectNumber= <INTEGER> the inspected GCP Project number
 - (Mandatory) topicProjectId=<STRING> the GCP Project ID that has the Pub/Sub topic that receive the alerts;
 - (Mandatory) topic=<STRING> the Pub/Sub topic name (cdmc-controls-topic or cdmc-data-assets-topic)
+- (Mandatory) projectNumber= <INTEGER> the inspected GCP Project number
 - (Optional) controls= <String> the list of all CDMC controls to be inspected, the format of list are two digit per control. Ex.: 020312 inspects the controls 02, 03 and 12. The default value is “all”.
 - (Optional) assetsScope=<BOOLEAN> informs if the log of inspected assets must be sent to a Pub/Sub topic configured in config.ini ASSETS_SCOPE section. Default value is TRUE
 
-Sample request format:
+Sample request format (from local client):
 ```
-curl -X POST 'https://<endpoint>/generate?orgId=<INTEGER>&projectId=<STRING>&topicProjectId=<STRING>&topic=<STRING>&projectNumber=<INTEGER>&controls=020608'
-```
-```
-curl -X POST "$ENDPOINT/generate?orgId=$ORGANIZATION_ID&projectId=$PROJECT_ID&topicProjectId=$PROJECT_ID_GOV&topic=cdmc-controls-topic&projectNumber=$PROJECT_NUMBER&controls=020608"
+curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" -X POST "$ENDPOINT/generate?orgId=$ORGANIZATION_ID&projectId=$PROJECT_ID&topicProjectId=$PROJECT_ID_GOV&topic=cdmc-controls-topic&projectNumber=$PROJECT_NUMBER&controls=020608"
 ```
 
 ## CONFIGURATION CHANGES

@@ -34,13 +34,21 @@ do
     gcloud services enable run.googleapis.com
     gcloud services enable dataplex.googleapis.com
     gcloud services enable containerregistry.googleapis.com
+    gcloud services enable iam.googleapis.com
+    # Required for tag engine
+    gcloud services enable cloudresourcemanager.googleapis.com
+    gcloud services enable firestore.googleapis.com
+    gcloud services enable cloudtasks.googleapis.com
+    gcloud services enable datacatalog.googleapis.com
+    gcloud services enable cloudscheduler.googleapis.com
 done
 
-# Back to data project
+#####################################
+# Infrastructure for the DATA project
+#####################################
 gcloud config set project $PROJECT_ID
 
-# Create the required components
-gcloud config set project ${PROJECT_ID}
+# Create the GCS bucket for data
 gcloud storage buckets create gs://${GCS_BUCKET_TPCDI}
 
 # Create the KMS
@@ -55,6 +63,11 @@ gcloud kms keys create ${KMS_KEYNAME} \
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member=serviceAccount:bq-${PROJECT_NUMBER}@bigquery-encryption.iam.gserviceaccount.com \
   --role=roles/cloudkms.cryptoKeyEncrypterDecrypter
+
+###########################################
+# Infrastructure for the GOVERNANCE project
+###########################################
+gcloud config set project $PROJECT_ID_GOV
 
 # Create the CloudDQ dataset
 bq --location=${REGION} mk ${PROJECT_ID_GOV}:${CLOUDDQ_BIGQUERY_DATASET}
@@ -77,4 +90,3 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID} \
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \
   --role=roles/bigquery.dataViewer
-
