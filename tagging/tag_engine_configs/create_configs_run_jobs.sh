@@ -38,7 +38,7 @@ curl -X POST $TAG_ENGINE_URL/configure_tag_history \
 # sensitive column tags (controls 6 and 7)
 ##########################################
 
-# Replace REGION & PROJECT with environment variables
+# Replace REGION & PROJECT with environment variables in all json template files - REVERSED AT END OF SCRIPT
 python3 ../support_functions/replace_string.py tag_engine_configs REGION $REGION .json
 python3 ../support_functions/replace_string.py tag_engine_configs PROJECT_ID_GOV $PROJECT_ID_GOV .json
 python3 ../support_functions/replace_string.py tag_engine_configs PROJECT_ID $PROJECT_ID .json
