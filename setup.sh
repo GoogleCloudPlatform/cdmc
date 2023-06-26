@@ -20,14 +20,14 @@ source environment-variables.sh
 export GOOGLE_PROJECT=$PROJECT_ID_GOV
 
 
-# Grant the service account used to run the setup the `serviceusage.services.enable` role.
-gcloud projects add-iam-policy-binding $PROJECT_ID \
-    --member="user:$SERVICE_ACCOUNT_EMAIL" \
-    --role="roles/serviceusage.serviceUsageAdmin"
-
-gcloud projects add-iam-policy-binding $PROJECT_ID_GOV \
-    --member="user:$SERVICE_ACCOUNT_EMAIL" \
-    --role="roles/serviceusage.serviceUsageAdmin"
+## Grant the service account used to run the setup the `serviceusage.services.enable` role.
+#gcloud projects add-iam-policy-binding $PROJECT_ID \
+#    --member="user:$SERVICE_ACCOUNT_EMAIL" \
+#    --role="roles/serviceusage.serviceUsageAdmin"
+#
+#gcloud projects add-iam-policy-binding $PROJECT_ID_GOV \
+#    --member="user:$SERVICE_ACCOUNT_EMAIL" \
+#    --role="roles/serviceusage.serviceUsageAdmin"
 
 
 # Activate the required APIs for all the projects
@@ -69,6 +69,7 @@ gcloud kms keys create ${KMS_KEYNAME} \
     #--protection-level "hsm" #uncomment for HSM
 
 # Trigger SA creation & grant permission to the BQ SA
+
 bq show --encryption_service_account --project_id=$PROJECT_ID
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member=serviceAccount:bq-${PROJECT_NUMBER}@bigquery-encryption.iam.gserviceaccount.com \
