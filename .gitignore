@@ -1,6 +1,8 @@
 # System folders
 .venv/
+.venvdlp/*
 .vscode/
+data-scanning/.venvdlp/*
 __pycache__
 
 # Ignore tpcdi data
@@ -12,3 +14,5 @@ report-engine/terraform/terraform.tfvars
 report-engine/terraform/.terraform.lock.hcl
 *.0_x5
 report-engine/terraform/terraform.tfstate
+
+
