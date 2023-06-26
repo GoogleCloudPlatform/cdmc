@@ -49,14 +49,15 @@ do
     gcloud services enable bigquerydatapolicy.googleapis.com
     gcloud services enable cloudfunctions.googleapis.com
     gcloud services enable bigqueryconnection.googleapis.com
-    gcloud services enable organization-policy.googleapis.com
+    #gcloud services enable organization-policy.googleapis.com
 done
 
-# Back to data project
+#################################
+# Infrastructure for data project
+#################################
 gcloud config set project $PROJECT_ID
 
-# Create the required components
-gcloud config set project ${PROJECT_ID}
+# Create the storage bucket
 gcloud storage buckets create gs://${GCS_BUCKET_TPCDI}
 
 # Create the KMS
@@ -73,7 +74,32 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member=serviceAccount:bq-${PROJECT_NUMBER}@bigquery-encryption.iam.gserviceaccount.com \
   --role=roles/cloudkms.cryptoKeyEncrypterDecrypter
 
-# Trigger SA creation & grant permission to the DLP SA
+
+############################################
+# Infrastructure for data governance project
+############################################
+gcloud config set project $PROJECT_ID_GOV
+
+# Create a service account for tagging \
+gcloud iam service-accounts create tag-creator \
+    --description="Service account to manage tagging" \
+    --display-name="Tag Engine SA"
+gcloud config set project $PROJECT_ID
+
+# Grant the CE Data Governance SA access to the Data project
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+  --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \
+  --role=roles/bigquery.user
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+  --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \
+  --role=roles/bigquery.dataViewer
+
+# Grant permission to the Data Catalog SA
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+  --member=serviceAccount:service-${PROJECT_NUMBER_GOV}@dlp-api.iam.gserviceaccount.com \
+  --role=roles/bigquery.admin
+
+# Trigger DLP SA creation & grant permission to the DLP SA
 curl --request POST \
   "https://dlp.googleapis.com/v2/projects/$PROJECT_ID_GOV/locations/us-central1/content:inspect" \
   --header "X-Goog-User-Project: $PROJECT_ID_GOV" \
@@ -83,10 +109,10 @@ curl --request POST \
   --data '{"item":{"value":"google@google.com"}}' \
   --compressed
 
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+  gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member=serviceAccount:service-${PROJECT_NUMBER_GOV}@dlp-api.iam.gserviceaccount.com \
   --role=roles/bigquery.admin
-``
+
 # Create the CloudDQ dataset
 bq --location=${REGION} mk ${PROJECT_ID_GOV}:${CLOUDDQ_BIGQUERY_DATASET}
 
