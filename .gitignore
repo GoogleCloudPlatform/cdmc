@@ -4,6 +4,7 @@
 .vscode/
 data-scanning/.venvdlp/*
 __pycache__
+pycache
 
 # Ignore tpcdi data
 data-ingestion/tpcdi-data
