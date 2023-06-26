@@ -126,18 +126,3 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID_GOV} \
 gcloud projects add-iam-policy-binding ${PROJECT_ID_GOV} \
   --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \
   --role=roles/serviceusage.serviceUsageConsumer
-
-# Grant the CE Data Governance SA access to the Data project
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \
-  --role=roles/bigquery.user
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \
-  --role=roles/bigquery.dataViewer
-
-# Create a service account for tagging \
-gcloud config set project $PROJECT_ID_GOV
-gcloud iam service-accounts create tag-creator \
-    --description="Service account to manage tagging" \
-    --display-name="Tag Engine SA"
-gcloud config set project $PROJECT_ID
