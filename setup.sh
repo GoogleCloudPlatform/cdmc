@@ -68,7 +68,8 @@ gcloud kms keys create ${KMS_KEYNAME} \
     --purpose "encryption"
     #--protection-level "hsm" #uncomment for HSM
 
-# Grant permission to the BQ SA
+# Trigger SA creation & grant permission to the BQ SA
+bq show --encryption_service_account --project_id=$PROJECT_ID
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member=serviceAccount:bq-${PROJECT_NUMBER}@bigquery-encryption.iam.gserviceaccount.com \
   --role=roles/cloudkms.cryptoKeyEncrypterDecrypter
@@ -95,6 +96,20 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID} \
 
 # Grant permission to the Data Catalog SA
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+  --member=serviceAccount:service-${PROJECT_NUMBER_GOV}@dlp-api.iam.gserviceaccount.com \
+  --role=roles/bigquery.admin
+
+# Trigger DLP SA creation & grant permission to the DLP SA
+curl --request POST \
+  "https://dlp.googleapis.com/v2/projects/$PROJECT_ID_GOV/locations/us-central1/content:inspect" \
+  --header "X-Goog-User-Project: $PROJECT_ID_GOV" \
+  --header "Authorization: Bearer $(gcloud auth print-access-token)" \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{"item":{"value":"google@google.com"}}' \
+  --compressed
+
+  gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member=serviceAccount:service-${PROJECT_NUMBER_GOV}@dlp-api.iam.gserviceaccount.com \
   --role=roles/bigquery.admin
 
