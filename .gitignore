@@ -12,3 +12,6 @@ report-engine/terraform/terraform.tfvars
 report-engine/terraform/.terraform.lock.hcl
 *.0_x5
 report-engine/terraform/terraform.tfstate
+
+# ignore python cache files
+*.pyc
