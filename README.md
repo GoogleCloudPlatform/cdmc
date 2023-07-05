@@ -1,12 +1,12 @@
 # Google Cloud CDMC Reference Architecture
 This repository contains the CDMC reference architecture for Google Cloud. 
 This guide provides the detailed instructions and technical artefacts required to stand up
-a Google Cloud architecture compliant with the 14 Controls of the EDMCouncil [Cloud 
-Data Management Capabilities (CDMC)](https://edmcouncil.org/frameworks/cdmc/). Please see the 
+a Google Cloud architecture compliant with the 14 Controls of the EDM Council's [Cloud 
+Data Management Capabilities (CDMC)](https://edmcouncil.org/frameworks/cdmc/) framework. Please see the 
 accompanying [architectural whitepaper](https://cloud.google.com/docs/security/implement-cdmc-framework) for more details. 
 
-This architecture has been tested for compliance against the controls by an indipendent 
-third party, and has achieved compliance on the controls.
+This architecture has been tested for compliance against the controls by an independant 
+third party, and has been certified as a [CDMC Certified Cloud Solution](https://www.credly.com/go/bqrpsrsDYrIe07th4CEIGw) by the EDM Council.
 
 This architecture should be seen as an example guide. 
 Each user who wishes to work towards CDMC compliance for their organisation will 
