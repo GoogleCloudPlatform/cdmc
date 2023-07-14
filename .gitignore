@@ -6,9 +6,6 @@ data-scanning/.venvdlp/*
 __pycache__
 pycache
 
-# Ignore tpcdi data
-data-ingestion/tpcdi-data
-
 # Ignore user env script, only the example should be checked in
 environment-variables.sh
 report-engine/terraform/terraform.tfvars
