@@ -32,12 +32,12 @@ declare -a DATASETS=(crm finwire hr oltp reference sales)
 for d in "${DATASETS[@]}"
 do
     :
-    unzip ${d}-data.zip -d unzipped/${d}/
+    #unzip ${d}-data.zip -d unzipped/${d}/
     gsutil cp -r unzipped/${d}/ gs://${GCS_BUCKET_TPCDI}/staging 
 done
 
 # Remove the unzipped files 
-rm -r unzipped
+#rm -r unzipped
 popd
 
 # Install python dependencies 
@@ -47,7 +47,6 @@ python3 -m pip install -r requirements.txt
 # Load the data
 echo -e "\nLoading data into BigQuery: "
 python3 load_crm.py
-python3 load_data.sh
 python3 load_finwire.py
 python3 load_hr.py
 python3 load_oltp.py
