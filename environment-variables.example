@@ -18,8 +18,8 @@
 # These must be configured by the user
 export PROJECT_ID="REPLACE WITH YOUR VALUE"
 export PROJECT_ID_GOV="REPLACE WITH YOUR VALUE"
-export REGION="REPLACE WITH YOUR VALUE"
-export SERVICE_ACCOUNT_EMAIL="REPLACE WITH YOUR VALUE"
+export REGION="REPLACE WITH YOUR VALUE" # eg: us-central1
+#export SERVICE_ACCOUNT_EMAIL="REPLACE WITH YOUR VALUE"
 
 # Other GCP variables
 gcloud config set project ${PROJECT_ID}
@@ -41,10 +41,10 @@ export CLOUDDQ_BIGQUERY_DATASET="cloud_dq"
 export AUTHENTICATED_USER="$(gcloud config list account --format 'value(core.account)')"
 
 # CDMC Controls Cloud Run
-gcloud config set project ${PROJECT_ID_GOV} # Switch back to governance project as the service is deployed there
-export ENDPOINT="$(gcloud run services describe cdmc-reportengine --region $REGION --format='value(status.url)')"
-export REPORTENGINE_SA="cdmc-reportengine@$PROJECT_ID_GOV.iam.gserviceaccount.com"   # email of your Tag creator service account for running BQ queries and creating DC tags
-gcloud config set project ${PROJECT_ID} # Back to data
+#gcloud config set project ${PROJECT_ID_GOV} # Switch back to governance project as the service is deployed there
+#export ENDPOINT="$(gcloud run services describe cdmc-reportengine --region $REGION --format='value(status.url)')"
+#export REPORTENGINE_SA="cdmc-reportengine@$PROJECT_ID_GOV.iam.gserviceaccount.com"   # email of your Tag creator service account for running BQ queries and creating DC tags
+#gcloud config set project ${PROJECT_ID} # Back to data
 
 # Tag Engine
 export TAG_ENGINE_PROJECT=$PROJECT_ID_GOV  # GCP project id for running the Tag Engine service
@@ -80,8 +80,8 @@ echo -e "\tAUTHENTICATED_USER                :" $AUTHENTICATED_USER
 echo -e "\n\nReport Engine:"
 echo -e "\tGOOGLE_PROJECT                    :" $GOOGLE_PROJECT
 
-echo -e "\n\nCDMC Controls detector:"
-echo -e "\tENDPOINT                          :" $ENDPOINT
+#echo -e "\n\nCDMC Controls detector:"
+#echo -e "\tENDPOINT                          :" $ENDPOINT
 
 echo -e "\n\nTag Engine:"
 echo -e "\tTAG_ENGINE_REGION                 :" $TAG_ENGINE_REGION

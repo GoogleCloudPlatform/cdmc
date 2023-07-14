@@ -25,15 +25,13 @@ source environment-variables.sh
 popd
 
 # Unzip the data and load to GCS
-echo -e "\nUnzipping TPC-DI data: "
+echo -e "Loading TPC-DI data to gsutil: "
 pushd tpcdi-data
-mkdir unzipped
 declare -a DATASETS=(crm finwire hr oltp reference sales)
 for d in "${DATASETS[@]}"
 do
     :
-    #unzip ${d}-data.zip -d unzipped/${d}/
-    gsutil cp -r unzipped/${d}/ gs://${GCS_BUCKET_TPCDI}/staging 
+    gsutil -m cp -r ${d}/ gs://${GCS_BUCKET_TPCDI}/staging/
 done
 
 # Remove the unzipped files 
