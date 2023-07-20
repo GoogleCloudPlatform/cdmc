@@ -1,10 +1,10 @@
 # System folders
 .venv/
+.venvdlp/*
 .vscode/
+data-scanning/.venvdlp/*
 __pycache__
-
-# Ignore tpcdi data
-data-ingestion/tpcdi-data
+pycache
 
 # Ignore user env script, only the example should be checked in
 environment-variables.sh
@@ -12,6 +12,3 @@ report-engine/terraform/terraform.tfvars
 report-engine/terraform/.terraform.lock.hcl
 *.0_x5
 report-engine/terraform/terraform.tfstate
-
-# ignore python cache files
-*.pyc

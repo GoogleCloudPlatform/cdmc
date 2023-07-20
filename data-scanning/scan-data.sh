@@ -14,7 +14,7 @@
 
 
 # This script creates a pythnon virtual environment installs the dependencies and 
-# then runs the script to create the DLP inspection triggers.
+# then runs the script to run the DLP inspection immediately.
 
 # Install virtual environment and activate
 python3 -m venv .venvdlp
@@ -24,8 +24,8 @@ source .venvdlp/bin/activate
 pip install -r requirements.txt
 
 
-# Run inspection 
-python inspect_datasets.py
+# Run Inspection now
+python3 inspect_datasets_schedule.py --scan_period_days 0
 
 
 

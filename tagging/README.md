@@ -1,6 +1,11 @@
 ### Tagging
 
-The tagging aspects of the solution consist of four parts: 1) creating the Data Catalog tag templates and policy tag taxonomy; 2) create the policy tables in BigQuery and the remote BigQuery functions; 3) deploying and configuring Tag Engine; 4) and deploying and scheduling the tag update orchestration workflow. 
+The tagging aspects of the solution consist of four parts: 
+
+1. Creating the Data Catalog tag templates and policy tag taxonomy
+1. Create the policy tables in BigQuery and the remote BigQuery functions
+1. Deploying and configuring Tag Engine
+1. Deploying and scheduling the tag update orchestration workflow
 
 This guide assumes that you have already completed the data ingestion deployment, the data scanning deployment, and the data quality deployment.   
 
@@ -11,14 +16,14 @@ This guide assumes that you have already completed the data ingestion deployment
 ```
 cd tag_templates
 pip install -r requirements.txt
-python create_template.py PROJECT REGION cdmc_controls.yaml
-python create_template.py PROJECT REGION completeness_template.yaml
-python create_template.py PROJECT REGION correctness_template.yaml
-python create_template.py PROJECT REGION cost_metrics.yaml
-python create_template.py PROJECT REGION data_sensitivity.yaml
-python create_template.py PROJECT REGION impact_assessment.yaml
-python create_template.py PROJECT REGION security_policy.yaml
-python create_template.py PROJECT REGION uniqueness_template.yaml
+python create_template.py $PROJECT_ID $REGION cdmc_controls.yaml
+python create_template.py $PROJECT_ID $REGION completeness_template.yaml
+python create_template.py $PROJECT_ID $REGION correctness_template.yaml
+python create_template.py $PROJECT_ID $REGION cost_metrics.yaml
+python create_template.py $PROJECT_ID $REGION data_sensitivity.yaml
+python create_template.py $PROJECT_ID $REGION impact_assessment.yaml
+python create_template.py $PROJECT_ID $REGION security_policy.yaml
+python create_template.py $PROJECT_ID $REGION uniqueness_template.yaml
 cd ..
 ```
 
@@ -36,11 +41,11 @@ cd ..
 3. Create and populate the policy tables: 
 
 ```
-bq mk --location=us-central1 --dataset data_classification
-bq mk --location=us-central1 --dataset data_retention
-bq mk --location=us-central1 --dataset impact_assessment
-bq mk --location=us-central1 --dataset entitlement_management
-bq mk --location=us-central1 --dataset security_policy
+bq mk --location=$REGION --dataset data_classification
+bq mk --location=$REGION --dataset data_retention
+bq mk --location=$REGION --dataset impact_assessment
+bq mk --location=$REGION --dataset entitlement_management
+bq mk --location=$REGION --dataset security_policy
 
 bq query < create_data_classification_tables.sql
 bq query < create_data_retention_tables.sql
@@ -72,7 +77,7 @@ export OAUTH_TOKEN=$(gcloud auth application-default print-access-token)
 
 ```
 curl -X POST $TAG_ENGINE_URL/configure_tag_history \
-	-d '{"bigquery_region":"us-central1", "bigquery_project":"sdw-data-gov-b1927e-dd69", "bigquery_dataset":"tag_history_logs", "enabled":true}' \
+	-d '{"bigquery_region":"$REGION", "bigquery_project":"$PROJECT_ID_GOV", "bigquery_dataset":"tag_history_logs", "enabled":true}' \
 	-H "Authorization: Bearer $IAM_TOKEN" \
 	-H "oauth_token: $OAUTH_TOKEN"
 ```
@@ -284,34 +289,34 @@ curl -X POST $TAG_ENGINE_URL/create_export_config \
 To deploy a workflow, you need to specify a service account that you'd like the workflow to run as. We recommend you use the cloud run service account which you created for running Tag Engine. This will be referred to as CLOUD_RUN_SA in the commands below. 
 
 ```
-gcloud workflows deploy tag-updates-data-sensitivity --location=us-central1 \
+gcloud workflows deploy tag-updates-data-sensitivity --location=$REGION \
 	--source=tag_updates_data_sensitivity.yaml --service-account=CLOUD_RUN_SA
 
-gcloud workflows deploy tag-updates-cdmc-controls --location=us-central1 \
+gcloud workflows deploy tag-updates-cdmc-controls --location=$REGION \
 	--source=tag_updates_cdmc_controls.yaml --service-account=CLOUD_RUN_SA
 	
-gcloud workflows deploy tag-updates-security-policy --location=us-central1 \
+gcloud workflows deploy tag-updates-security-policy --location=$REGION \
 	--source=tag_updates_security_policy.yaml --service-account=CLOUD_RUN_SA
 	
-gcloud workflows deploy tag-updates-cost-metrics --location=us-central1 \
+gcloud workflows deploy tag-updates-cost-metrics --location=$REGION \
 	--source=tag_updates_cost_metrics.yaml --service-account=CLOUD_RUN_SA
 
-gcloud workflows deploy tag-updates-completeness --location=us-central1 \
+gcloud workflows deploy tag-updates-completeness --location=$REGION \
 	--source=tag_updates_completeness.yaml --service-account=CLOUD_RUN_SA
 
-gcloud workflows deploy tag-updates-correctness --location=us-central1 \
+gcloud workflows deploy tag-updates-correctness --location=$REGION \
 	--source=tag_updates_correctness.yaml --service-account=CLOUD_RUN_SA
 
-gcloud workflows deploy tag-updates-impact-assessment --location=us-central1 \
+gcloud workflows deploy tag-updates-impact-assessment --location=$REGION \
 	--source=tag_updates_impact_assessment.yaml --service-account=CLOUD_RUN_SA
 	
-gcloud workflows deploy tag-exports-all-templates --location=us-central1 \
+gcloud workflows deploy tag-exports-all-templates --location=$REGION \
 	--source=tag_exports_all_templates.yaml --service-account=CLOUD_RUN_SA
 	
-gcloud workflows deploy oauth-token --location=us-central1 \
+gcloud workflows deploy oauth-token --location=$REGION \
 	--source=oauth_token.yaml --service-account=CLOUD_RUN_SA
 	
-gcloud workflows deploy caller_workflow --location=us-central1 \
+gcloud workflows deploy caller_workflow --location=$REGION \
 	--source=caller_workflow.yaml --service-account=CLOUD_RUN_SA
 ```
 

@@ -16,9 +16,14 @@
 
 # Set the environment variables
 # These must be configured by the user
-export PROJECT_ID= YOURVALUE
-export PROJECT_ID_GOV= YOURVALUE
-export REGION= YOURVALUE
+export PROJECT_ID="REPLACE WITH YOUR VALUE"
+export PROJECT_ID_GOV="REPLACE WITH YOUR VALUE"
+export REGION="REPLACE WITH YOUR VALUE" # eg: us-central1
+
+# Other GCP variables
+gcloud config set project ${PROJECT_ID}
+export ORGANIZATION_ID="$(gcloud projects get-ancestors $PROJECT_ID | grep organization | cut -f1 -d' ')"
+export GOOGLE_PROJECT=$PROJECT_ID
 
 # Data Load variables
 export PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format="value(projectNumber)")
@@ -30,8 +35,24 @@ export KMS_KEY="projects/${PROJECT_ID}/locations/${REGION}/keyRings/${KMS_KEYRIN
 
 # CloudDQ variables
 export CLOUDDQ_BIGQUERY_DATASET="cloud_dq"
-#export CLOUDDQ_GOOGLE_CLOUD_PROJECT=${PROJECT_ID_GOV}
-#export CLOUDDQ_BIGQUERY_REGION=${REGION}
+
+# Policy Tags
+export AUTHENTICATED_USER="$(gcloud config list account --format 'value(core.account)')"
+
+# CDMC Controls Cloud Run
+#gcloud config set project ${PROJECT_ID_GOV} # Switch back to governance project as the service is deployed there
+#export ENDPOINT="$(gcloud run services describe cdmc-reportengine --region $REGION --format='value(status.url)')"
+#export REPORTENGINE_SA="cdmc-reportengine@$PROJECT_ID_GOV.iam.gserviceaccount.com"   # email of your Tag creator service account for running BQ queries and creating DC tags
+#gcloud config set project ${PROJECT_ID} # Back to data
+
+# Tag Engine
+export TAG_ENGINE_PROJECT=$PROJECT_ID_GOV  # GCP project id for running the Tag Engine service
+export TAG_ENGINE_REGION=$REGION     # GCP region for running Tag Engine service
+export BIGQUERY_PROJECT=$PROJECT_ID    # GCP project used by BigQuery data assets, can be equal to TAG_ENGINE_PROJECT. This variable is only used for setting IAM permissions in steps 10 and 11 
+export BIGQUERY_REGION=$REGION      # GCP region in which data assets in BigQuery are stored, e.g. us-central1
+export CLOUD_RUN_SA="cloud-run@$PROJECT_ID_GOV.iam.gserviceaccount.com"     # email of your Cloud Run service account for running Tag Engine service
+export TAG_CREATOR_SA="tag-creator@$PROJECT_ID_GOV.iam.gserviceaccount.com"   # email of your Tag creator service account for running BQ queries and creating DC tags
+
 
 # Tagging Variables
 export TAG_CREATOR_SA="tag-creator@${PROJECT_ID_GOV}.iam.gserviceaccount.com"
@@ -39,10 +60,11 @@ export TAG_HISTORY_BIGQUERY_DATASET="tag_history_logs"
 
 echo -e "\nYour environment variables have been initialised as follows:"
 echo -e "\n\nKey variables:"
+echo -e "\tORGANIZATION_ID                   :" $ORGANIZATION_ID
 echo -e "\tPROJECT_ID                        :" $PROJECT_ID
+echo -e "\tPROJECT_ID_GOV                    :" $PROJECT_ID_GOV
 echo -e "\tPROJECT_NUMBER                    :" $PROJECT_NUMBER
 echo -e "\tPROJECT_NUMBER_GOV                :" $PROJECT_NUMBER_GOV
-echo -e "\tPROJECT_ID_GOV                    :" $PROJECT_ID_GOV
 echo -e "\tREGION                            :" $REGION
            
 echo -e "\n\nData Load:"           
@@ -59,6 +81,16 @@ echo -e "\n\nTagging:"
 echo -e "\tTAG_CREATOR_SA                    :" $TAG_CREATOR_SA
 echo -e "\tTAG_HISTORY_BIGQUERY_DATASET      :" $TAG_HISTORY_BIGQUERY_DATASET
 
+echo -e "\n\nReport Engine:"
+echo -e "\tGOOGLE_PROJECT                    :" $GOOGLE_PROJECT
 
+#echo -e "\n\nCDMC Controls detector:"
+#echo -e "\tENDPOINT                          :" $ENDPOINT
 
-
+echo -e "\n\nTag Engine:"
+echo -e "\tTAG_ENGINE_REGION                 :" $TAG_ENGINE_REGION
+echo -e "\tTAG_ENGINE_PROJECT                :" $TAG_ENGINE_PROJECT
+echo -e "\tBIGQUERY_PROJECT                  :" $BIGQUERY_PROJECT
+echo -e "\tBIGQUERY_REGION                   :" $BIGQUERY_REGION
+echo -e "\tCLOUD_RUN_SA                      :" $CLOUD_RUN_SA
+echo -e "\tTAG_CREATOR_SA                    :" $TAG_CREATOR_SA

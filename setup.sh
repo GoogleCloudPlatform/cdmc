@@ -19,6 +19,17 @@
 source environment-variables.sh
 export GOOGLE_PROJECT=$PROJECT_ID_GOV
 
+
+## Grant the service account used to run the setup the `serviceusage.services.enable` role.
+#gcloud projects add-iam-policy-binding $PROJECT_ID \
+#    --member="user:$AUTHENTICATED_USER" \
+#    --role="roles/serviceusage.serviceUsageAdmin"
+#
+#gcloud projects add-iam-policy-binding $PROJECT_ID_GOV \
+#    --member="user:$AUTHENTICATED_USER" \
+#    --role="roles/serviceusage.serviceUsageAdmin"
+
+
 # Activate the required APIs for all the projects
 declare -a PROJECTS=($PROJECT_ID $PROJECT_ID_GOV)
 for p in "${PROJECTS[@]}"
@@ -35,13 +46,18 @@ do
     gcloud services enable dataplex.googleapis.com
     gcloud services enable containerregistry.googleapis.com
     gcloud services enable dlp.googleapis.com 
+    gcloud services enable bigquerydatapolicy.googleapis.com
+    gcloud services enable cloudfunctions.googleapis.com
+    gcloud services enable bigqueryconnection.googleapis.com
+    #gcloud services enable organization-policy.googleapis.com
 done
 
-# Back to data project
+#################################
+# Infrastructure for data project
+#################################
 gcloud config set project $PROJECT_ID
 
-# Create the required components
-gcloud config set project ${PROJECT_ID}
+# Create the storage bucket
 gcloud storage buckets create gs://${GCS_BUCKET_TPCDI}
 
 # Create the KMS
@@ -52,16 +68,51 @@ gcloud kms keys create ${KMS_KEYNAME} \
     --purpose "encryption"
     #--protection-level "hsm" #uncomment for HSM
 
-# Grant permission to the BQ SA
+# Trigger SA creation & grant permission to the BQ SA
+bq show --encryption_service_account --project_id=$PROJECT_ID
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member=serviceAccount:bq-${PROJECT_NUMBER}@bigquery-encryption.iam.gserviceaccount.com \
   --role=roles/cloudkms.cryptoKeyEncrypterDecrypter
+
+
+############################################
+# Infrastructure for data governance project
+############################################
+gcloud config set project $PROJECT_ID_GOV
+
+# Create a service account for tagging \
+gcloud iam service-accounts create tag-creator \
+    --description="Service account to manage tagging" \
+    --display-name="Tag Engine SA"
+gcloud config set project $PROJECT_ID
+
+# Grant the CE Data Governance SA access to the Data project
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+  --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \
+  --role=roles/bigquery.user
+gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+  --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \
+  --role=roles/bigquery.dataViewer
 
 # Grant permission to the Data Catalog SA
 gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member=serviceAccount:service-${PROJECT_NUMBER_GOV}@dlp-api.iam.gserviceaccount.com \
   --role=roles/bigquery.admin
-``
+
+# Trigger DLP SA creation & grant permission to the DLP SA
+curl --request POST \
+  "https://dlp.googleapis.com/v2/projects/$PROJECT_ID_GOV/locations/us-central1/content:inspect" \
+  --header "X-Goog-User-Project: $PROJECT_ID_GOV" \
+  --header "Authorization: Bearer $(gcloud auth print-access-token)" \
+  --header 'Accept: application/json' \
+  --header 'Content-Type: application/json' \
+  --data '{"item":{"value":"google@google.com"}}' \
+  --compressed
+
+  gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+  --member=serviceAccount:service-${PROJECT_NUMBER_GOV}@dlp-api.iam.gserviceaccount.com \
+  --role=roles/bigquery.admin
+
 # Create the CloudDQ dataset
 bq --location=${REGION} mk ${PROJECT_ID_GOV}:${CLOUDDQ_BIGQUERY_DATASET}
 
@@ -78,12 +129,3 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID_GOV} \
 gcloud projects add-iam-policy-binding ${PROJECT_ID_GOV} \
   --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \
   --role=roles/serviceusage.serviceUsageConsumer
-
-# Grant the CE Data Governance SA access to the Data project
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \
-  --role=roles/bigquery.user
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \
-  --role=roles/bigquery.dataViewer
-
