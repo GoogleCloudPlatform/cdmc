@@ -1,5 +1,23 @@
-export TAG_ENGINE_PROJECT="sdw-data-gov-b1927e-dd69" 
+# Copyright 2023 Google, LLC.
+#
+# Licensed under the Apache License, Version 2.0 (the "License");
+# you may not use this file except in compliance with the License.
+# You may obtain a copy of the License at
+#
+#    http://www.apache.org/licenses/LICENSE-2.0
+#
+# Unless required by applicable law or agreed to in writing, software
+# distributed under the License is distributed on an "AS IS" BASIS,
+# WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+# See the License for the specific language governing permissions and
+# limitations under the License.
+
+
+## This script performs the basic setup tag engine
+
+export TAG_ENGINE_PROJECT=$PROJECT_ID_GOV 
 gcloud config set project $TAG_ENGINE_PROJECT
+gcloud config set run/region $REGION
 
 export TAG_ENGINE_URL=`gcloud run services describe tag-engine --format="value(status.url)"`
 
@@ -7,18 +25,23 @@ export TAG_ENGINE_URL=`gcloud run services describe tag-engine --format="value(s
 export IAM_TOKEN=$(gcloud auth print-identity-token)
 
 # OAuth TOKEN
-gcloud auth application-default login
+#gcloud auth application-default login
 export OAUTH_TOKEN=$(gcloud auth application-default print-access-token)
 
 # configure tag history
 curl -X POST $TAG_ENGINE_URL/configure_tag_history \
-	-d '{"bigquery_region":"us-central1", "bigquery_project":"sdw-data-gov-b1927e-dd69", "bigquery_dataset":"tag_history_logs", "enabled":true}' \
+	-d "{"bigquery_region":"$REGION", "bigquery_project":"$PROJECT_ID_GOV", "bigquery_dataset":"$TAG_HISTORY_BIGQUERY_DATASET", "enabled":true}" \
 	-H "Authorization: Bearer $IAM_TOKEN" \
 	-H "oauth_token: $OAUTH_TOKEN"
 
 ##########################################
 # sensitive column tags (controls 6 and 7)
 ##########################################
+
+# Replace REGION & PROJECT with environment variables in all json template files - REVERSED AT END OF SCRIPT
+python3 ../support_functions/replace_string.py tag_engine_configs REGION $REGION .json
+python3 ../support_functions/replace_string.py tag_engine_configs PROJECT_ID_GOV $PROJECT_ID_GOV .json
+python3 ../support_functions/replace_string.py tag_engine_configs PROJECT_ID $PROJECT_ID .json
 
 # crm
 curl -X POST $TAG_ENGINE_URL/create_sensitive_column_config \
@@ -595,3 +618,8 @@ curl -i -X POST $TAG_ENGINE_URL/purge_inactive_configs \
   -d '{"config_type":"ALL"}' \
   -H "Authorization: Bearer $IAM_TOKEN" \
   -H "oauth_token: $OAUTH_TOKEN"
+
+# Reverse replace REGION & PROJECT with environment variables
+python3 ../support_functions/replace_string.py tag_engine_configs $REGION REGION .json
+python3 ../support_functions/replace_string.py tag_engine_configs $PROJECT_ID_GOV PROJECT_ID_GOV .json
+python3 ../support_functions/replace_string.py tag_engine_configs $PROJECT_ID PROJECT_ID .json

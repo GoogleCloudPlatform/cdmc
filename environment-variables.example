@@ -54,6 +54,10 @@ export CLOUD_RUN_SA="cloud-run@$PROJECT_ID_GOV.iam.gserviceaccount.com"     # em
 export TAG_CREATOR_SA="tag-creator@$PROJECT_ID_GOV.iam.gserviceaccount.com"   # email of your Tag creator service account for running BQ queries and creating DC tags
 
 
+# Tagging Variables
+export TAG_CREATOR_SA="tag-creator@${PROJECT_ID_GOV}.iam.gserviceaccount.com"
+export TAG_HISTORY_BIGQUERY_DATASET="tag_history_logs"
+
 echo -e "\nYour environment variables have been initialised as follows:"
 echo -e "\n\nKey variables:"
 echo -e "\tORGANIZATION_ID                   :" $ORGANIZATION_ID
@@ -73,8 +77,9 @@ echo -e "\tKMS_KEY                           :" $KMS_KEY
 echo -e "\n\nData Quality:"
 echo -e "\tCLOUDDQ_BIGQUERY_DATASET          :" $CLOUDDQ_BIGQUERY_DATASET
 
-echo -e "\n\nTag Engine:"
-echo -e "\tAUTHENTICATED_USER                :" $AUTHENTICATED_USER
+echo -e "\n\nTagging:"
+echo -e "\tTAG_CREATOR_SA                    :" $TAG_CREATOR_SA
+echo -e "\tTAG_HISTORY_BIGQUERY_DATASET      :" $TAG_HISTORY_BIGQUERY_DATASET
 
 echo -e "\n\nReport Engine:"
 echo -e "\tGOOGLE_PROJECT                    :" $GOOGLE_PROJECT
