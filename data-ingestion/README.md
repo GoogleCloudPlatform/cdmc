@@ -11,20 +11,12 @@ The load scripts also record the data lineage of each table using Data Catalog's
 Follow the steps below to deploy the data ingestions aspects of the solution.    
 
 1. We use the [TPC-DI benchmark](https://www.tpc.org/tpcdi/default5.asp) as our sample data. 
-You can download the dataset for free from [TPC.org](https://tpc.org/). Note that the download requires registration. 
-Once you download the files, place them in the `data-ingestion/tpcdi-data` folder.
-Your folder should look like this.
-    ```
-    $ tree tpcdi-data/
-    tpcdi-data/
-    ├── crm-data.zip
-    ├── finwire-data.zip
-    ├── hr-data.zip
-    ├── oltp-data.zip
-    ├── reference-data.zip
-    └── sales-data.zip
+For convenience, we have uploaded on the repository some sample data which has been created 
+using the TPC-DI benchmark tool.
+You can also download the dataset for free from [TPC.org](https://tpc.org/) (Note that the download 
+requires registration), although if you do that you will need to undergo several steps to run the 
+data generation utility and convert the files to the right format. 
 
-    ```
 1. Run the `load_data.sh` script.
  The script will:
     * Install the required dependencies
