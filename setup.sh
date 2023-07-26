@@ -58,7 +58,7 @@ done
 gcloud config set project $PROJECT_ID
 
 # Create the storage bucket
-gcloud storage buckets create gs://${GCS_BUCKET_TPCDI}
+gcloud storage buckets create gs://${GCS_BUCKET_TPCDI} --location ${REGION} # Region is required otherwise it will default to us-central1 location
 
 # Create the KMS
 gcloud kms keyrings create ${KMS_KEYRING} --location ${REGION}
