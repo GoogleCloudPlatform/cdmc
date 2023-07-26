@@ -22,7 +22,7 @@ export REGION="REPLACE WITH YOUR VALUE" # eg: us-central1
 
 # Other GCP variables
 gcloud config set project ${PROJECT_ID}
-export ORGANIZATION_ID="$(gcloud projects get-ancestors $PROJECT_ID | grep organization | cut -f1 -d' ')" #This is should be hard coded as command does not work when we have parent folder and does not give correct output
+export ORGANIZATION_ID="$(gcloud projects get-ancestors $PROJECT_ID | grep -B1 organization | grep ID | cut -f2 -d' ')" #This method works with even when we have folder structure
 export GOOGLE_PROJECT=$PROJECT_ID
 
 # Data Load variables
