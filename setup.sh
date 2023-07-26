@@ -84,6 +84,12 @@ gcloud config set project $PROJECT_ID_GOV
 gcloud iam service-accounts create tag-creator \
     --description="Service account to manage tagging" \
     --display-name="Tag Engine SA"
+
+# Create a service account for cloud run \
+gcloud iam service-accounts create cloud-run \
+    --description="Service account to manage cloud run service" \
+    --display-name="Cloud Run SA"
+    
 gcloud config set project $PROJECT_ID
 
 # Grant the CE Data Governance SA access to the Data project
