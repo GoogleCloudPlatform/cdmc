@@ -18,9 +18,9 @@ import argparse
 import yaml
 
 from google.cloud import datacatalog
-from google.cloud.bigquery import datapolicies
-from google.iam.v1 import iam_policy_pb2
 from google.cloud import bigquery
+from google.cloud import bigquery_datapolicies as datapolicies
+from google.iam.v1 import iam_policy_pb2
 from google.cloud.bigquery import schema
 
 ptm = datacatalog.PolicyTagManagerClient()

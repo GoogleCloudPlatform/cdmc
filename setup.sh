@@ -58,7 +58,7 @@ done
 gcloud config set project $PROJECT_ID
 
 # Create the storage bucket
-gcloud storage buckets create gs://${GCS_BUCKET_TPCDI}
+gcloud storage buckets create gs://${GCS_BUCKET_TPCDI} --location ${REGION} # Region is required otherwise it will default to us-central1 location
 
 # Create the KMS
 gcloud kms keyrings create ${KMS_KEYRING} --location ${REGION}
@@ -84,6 +84,12 @@ gcloud config set project $PROJECT_ID_GOV
 gcloud iam service-accounts create tag-creator \
     --description="Service account to manage tagging" \
     --display-name="Tag Engine SA"
+
+# Create a service account for cloud run \
+gcloud iam service-accounts create cloud-run \
+    --description="Service account to manage cloud run service" \
+    --display-name="Cloud Run SA"
+    
 gcloud config set project $PROJECT_ID
 
 # Grant the CE Data Governance SA access to the Data project
