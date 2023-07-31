@@ -18,10 +18,9 @@ import argparse
 import yaml
 
 from google.cloud import datacatalog
-#from google.cloud.bigquery import datapolicies
-from google.cloud import bigquery_datapolicies
-from google.iam.v1 import iam_policy_pb2
 from google.cloud import bigquery
+from google.cloud import bigquery_datapolicies as datapolicies
+from google.iam.v1 import iam_policy_pb2
 from google.cloud.bigquery import schema
 
 ptm = datacatalog.PolicyTagManagerClient()
@@ -164,11 +163,9 @@ def create_update_masking_rule(project, region, policy_tag, masking_rule):
     masking_type = masking_rule.get("masking_type")
     masked_readers = masking_rule.get("masked_readers")
 
-    #dpsc = datapolicies.DataPolicyServiceClient()
-    dpsc = bigquery_datapolicies.DataPolicyServiceClient()
-
-    #list_req = datapolicies.ListDataPoliciesRequest(parent=parent)
-    list_req = bigquery_datapolicies.ListDataPoliciesRequest(parent=parent)
+    dpsc = datapolicies.DataPolicyServiceClient()
+    
+    list_req = datapolicies.ListDataPoliciesRequest(parent=parent)
     list_res = dpsc.list_data_policies(request=list_req)
     
     masking_rule_exists = False
@@ -190,8 +187,7 @@ def create_update_masking_rule(project, region, policy_tag, masking_rule):
     else:
         predefined_expression = 'DEFAULT_MASKING_VALUE'
 
-    #dp = datapolicies.DataPolicy()
-    dp = bigquery_datapolicies.DataPolicy()
+    dp = datapolicies.DataPolicy()
     dp.name = policy_name_qualified
     dp.data_policy_id = policy_name
     dp.data_policy_type = 'DATA_MASKING_POLICY'
@@ -200,8 +196,7 @@ def create_update_masking_rule(project, region, policy_tag, masking_rule):
     
     if masking_rule_exists:
         
-        #dp_req = datapolicies.UpdateDataPolicyRequest(data_policy=dp)
-        dp_req = bigquery_datapolicies.UpdateDataPolicyRequest(data_policy=dp)
+        dp_req = datapolicies.UpdateDataPolicyRequest(data_policy=dp)
         #print('dp_req:', dp_req)
     
         dp_res = dpsc.update_data_policy(request=dp_req)
@@ -209,8 +204,9 @@ def create_update_masking_rule(project, region, policy_tag, masking_rule):
         
         print('updated data policy ', policy_name)
         
-    else:
-        dp_req = bigquery_datapolicies.CreateDataPolicyRequest(
+    else:  
+
+        dp_req = datapolicies.CreateDataPolicyRequest(
             parent=parent,
             data_policy=dp)
         #print('dp_req:', dp_req)
@@ -226,8 +222,7 @@ def create_update_masking_rule(project, region, policy_tag, masking_rule):
 
 def set_masked_readers(data_policy, masked_readers):
     
-    #dpsc = datapolicies.DataPolicyServiceClient()
-    dpsc = bigquery_datapolicies.DataPolicyServiceClient()
+    dpsc = datapolicies.DataPolicyServiceClient()
     formatted_readers = []
     
     for reader in masked_readers:
