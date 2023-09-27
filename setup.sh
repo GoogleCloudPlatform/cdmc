@@ -49,6 +49,7 @@ do
     gcloud services enable bigquerydatapolicy.googleapis.com
     gcloud services enable cloudfunctions.googleapis.com
     gcloud services enable bigqueryconnection.googleapis.com
+    gcloud services enable datacatalog.googleapis.com
     #gcloud services enable organization-policy.googleapis.com
 done
 
@@ -100,11 +101,6 @@ gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \
   --role=roles/bigquery.dataViewer
 
-# Grant permission to the Data Catalog SA
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member=serviceAccount:service-${PROJECT_NUMBER_GOV}@dlp-api.iam.gserviceaccount.com \
-  --role=roles/bigquery.admin
-
 # Trigger DLP SA creation & grant permission to the DLP SA
 curl --request POST \
   "https://dlp.googleapis.com/v2/projects/$PROJECT_ID_GOV/locations/us-central1/content:inspect" \
@@ -115,6 +111,7 @@ curl --request POST \
   --data '{"item":{"value":"google@google.com"}}' \
   --compressed
 
+# Grant permission to the DLP SA
   gcloud projects add-iam-policy-binding ${PROJECT_ID} \
   --member=serviceAccount:service-${PROJECT_NUMBER_GOV}@dlp-api.iam.gserviceaccount.com \
   --role=roles/bigquery.admin
