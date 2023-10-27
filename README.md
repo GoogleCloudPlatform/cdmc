@@ -15,29 +15,7 @@ CDMC assessment on their solution.
 ## Prerequisites
 ### GCP Setup
 
-#### GCP Projects setup
-This guide relies on two projects being available:
-* A project to store the data, and run the controls against. For example `cdmc-confdata`
-* A project to act as your data governance one, for example`cdmc-gov`
-
-#### Infrastructure creation
-The CDMC architecture relies on a number of GCP component which need to be provisioned.
-The `setup.sh` script creates the necessary components.
-Before running the `setup.sh` script, make sure you have created and customised your
-`environment-variables.sh` file, using `environment-variables.example` as a template.
-```
-cp environment-variables.example environment-variables.sh
-```
-Once you have customised the `environment-variables.sh`, make sure to execute it:
-```
-source environment-variables.sh
-```
-Then create the infrastructure using the `setup.sh` convenience script.
-```
-source setup.sh
-```
-
-#### Application default credentials
+#### Obtain application default credentials (ADC)
 
 In order to run the scripts in the repositories, you will need to set up the
 application default credentials for any machine used to run the script.
@@ -52,6 +30,41 @@ This command will place the credentials file in the following location:
 * Linux, macOS: `$HOME/.config/gcloud/application_default_credentials.json`
 * Windows: `%APPDATA%\gcloud\application_default_credentials.json`
 
+#### Infrastructure creation
+The CDMC architecture relies on a number of GCP component which need to be provisioned.
+
+* *Optional*: create a GCP Folder:
+
+        gcloud resource-manager folders create --display-name=CDMC-LABS
+
+##### GCP Projects setup
+This guide relies on two projects being available:
+* A project to store the data, and run the controls against. For example `cdmc-confdata`.
+You can create the data project with this command:
+
+        gcloud projects create cdmc-confdata --folder [FOLDER_ID]
+
+* A project to act as your data governance one. For example `cdmc-gov`.
+You can create the data governance project with this command:
+
+        gcloud projects create cdmc-gov --folder [FOLDER_ID]
+
+##### Infrastructure configuration
+The `setup.sh` script creates the necessary GCP components in the Data and Gov projects created above.
+
+Before running the `setup.sh` script, make sure you have created and customised your
+`environment-variables.sh` file, using `environment-variables.example` as a template.
+```
+cp environment-variables.example environment-variables.sh
+```
+Once you have customised the `environment-variables.sh`, make sure to execute it:
+```
+source environment-variables.sh
+```
+Then create the infrastructure using the `setup.sh` convenience script.
+```
+source setup.sh
+```
 
 ### Virtual Environment
 It is advisable to create a virtual environment to install the required python dependencies in
@@ -61,7 +74,6 @@ the machine you are running any script from.
 python3 -m venv .venv
 source .venv/bin/activate
 ```
-
 
 ## Deployment Guide
 
