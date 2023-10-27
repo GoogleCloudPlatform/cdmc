@@ -16,7 +16,7 @@ gcloud functions add-iam-policy-binding get_masking_rule \
 	--member=serviceAccount:$service_account_string \
 	--role='roles/cloudfunctions.invoker'
 
-gcloud projects add-iam-policy-binding $PROJECT_ID \
+gcloud projects add-iam-policy-binding $PROJECT_ID_DATA \
 	--member=serviceAccount:$TAG_CREATOR_SA \
 	--role='roles/bigquery.dataOwner'
 

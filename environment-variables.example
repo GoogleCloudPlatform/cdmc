@@ -16,22 +16,22 @@
 
 # Set the environment variables
 # These must be configured by the user
-export PROJECT_ID="REPLACE WITH YOUR VALUE"
+export PROJECT_ID_DATA="REPLACE WITH YOUR VALUE"
 export PROJECT_ID_GOV="REPLACE WITH YOUR VALUE"
 export REGION="REPLACE WITH YOUR VALUE" # eg: us-central1
 
 # Other GCP variables
-gcloud config set project ${PROJECT_ID}
-export ORGANIZATION_ID="$(gcloud projects get-ancestors $PROJECT_ID | grep -B1 organization | grep ID | cut -f2 -d' ')" #This method works even when we have folder structure
-export GOOGLE_PROJECT=$PROJECT_ID
+gcloud config set project ${PROJECT_ID_DATA}
+export ORGANIZATION_ID="$(gcloud projects get-ancestors $PROJECT_ID_DATA | grep -B1 organization | grep ID | cut -f2 -d' ')" #This method works even when we have folder structure
+export GOOGLE_PROJECT=$PROJECT_ID_DATA
 
 # Data Load variables
-export PROJECT_NUMBER=$(gcloud projects describe $PROJECT_ID --format="value(projectNumber)")
-export GCS_BUCKET_TPCDI=${PROJECT_NUMBER}-tpcdi-data
+export PROJECT_NUMBER_DATA=$(gcloud projects describe $PROJECT_ID_DATA --format="value(projectNumber)")
+export GCS_BUCKET_TPCDI=${PROJECT_NUMBER_DATA}-tpcdi-data
 export PROJECT_NUMBER_GOV=$(gcloud projects describe $PROJECT_ID_GOV --format="value(projectNumber)")
 export KMS_KEYRING=cmek-keyring-bigquery
 export KMS_KEYNAME=cmek-bigquery-key
-export KMS_KEY="projects/${PROJECT_ID}/locations/${REGION}/keyRings/${KMS_KEYRING}/cryptoKeys/${KMS_KEYNAME}"
+export KMS_KEY="projects/${PROJECT_ID_DATA}/locations/${REGION}/keyRings/${KMS_KEYRING}/cryptoKeys/${KMS_KEYNAME}"
 
 # CloudDQ variables
 export CLOUDDQ_BIGQUERY_DATASET="cloud_dq"
@@ -43,12 +43,12 @@ export AUTHENTICATED_USER="$(gcloud config list account --format 'value(core.acc
 #gcloud config set project ${PROJECT_ID_GOV} # Switch back to governance project as the service is deployed there
 #export ENDPOINT="$(gcloud run services describe cdmc-reportengine --region $REGION --format='value(status.url)')"
 #export REPORTENGINE_SA="cdmc-reportengine@$PROJECT_ID_GOV.iam.gserviceaccount.com"   # email of your Tag creator service account for running BQ queries and creating DC tags
-#gcloud config set project ${PROJECT_ID} # Back to data
+#gcloud config set project ${PROJECT_ID_DATA} # Back to data
 
 # Tag Engine
 export TAG_ENGINE_PROJECT=$PROJECT_ID_GOV  # GCP project id for running the Tag Engine service
 export TAG_ENGINE_REGION=$REGION     # GCP region for running Tag Engine service
-export BIGQUERY_PROJECT=$PROJECT_ID    # GCP project used by BigQuery data assets, can be equal to TAG_ENGINE_PROJECT. This variable is only used for setting IAM permissions in steps 10 and 11
+export BIGQUERY_PROJECT=$PROJECT_ID_DATA    # GCP project used by BigQuery data assets, can be equal to TAG_ENGINE_PROJECT. This variable is only used for setting IAM permissions in steps 10 and 11
 export BIGQUERY_REGION=$REGION      # GCP region in which data assets in BigQuery are stored, e.g. us-central1
 export CLOUD_RUN_SA="cloud-run@$PROJECT_ID_GOV.iam.gserviceaccount.com"     # email of your Cloud Run service account for running Tag Engine service
 export TAG_CREATOR_SA="tag-creator@$PROJECT_ID_GOV.iam.gserviceaccount.com"   # email of your Tag creator service account for running BQ queries and creating DC tags
@@ -61,9 +61,9 @@ export TAG_HISTORY_BIGQUERY_DATASET="tag_history_logs"
 echo -e "\nYour environment variables have been initialised as follows:"
 echo -e "\n\nKey variables:"
 echo -e "\tORGANIZATION_ID                   :" $ORGANIZATION_ID
-echo -e "\tPROJECT_ID                        :" $PROJECT_ID
+echo -e "\tPROJECT_ID_DATA                   :" $PROJECT_ID_DATA
 echo -e "\tPROJECT_ID_GOV                    :" $PROJECT_ID_GOV
-echo -e "\tPROJECT_NUMBER                    :" $PROJECT_NUMBER
+echo -e "\tPROJECT_NUMBER_DATA               :" $PROJECT_NUMBER_DATA
 echo -e "\tPROJECT_NUMBER_GOV                :" $PROJECT_NUMBER_GOV
 echo -e "\tREGION                            :" $REGION
 

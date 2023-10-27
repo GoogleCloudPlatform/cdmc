@@ -13,15 +13,15 @@
 # limitations under the License.
 
 
-## This script performs the basic setup for the projects 
-## Including creating the required GCP services and setting up the 
+## This script performs the basic setup for the projects
+## Including creating the required GCP services and setting up the
 ## environment with the required dependencies
 source environment-variables.sh
 export GOOGLE_PROJECT=$PROJECT_ID_GOV
 
 
 ## Grant the service account used to run the setup the `serviceusage.services.enable` role.
-#gcloud projects add-iam-policy-binding $PROJECT_ID \
+#gcloud projects add-iam-policy-binding $PROJECT_ID_DATA \
 #    --member="user:$AUTHENTICATED_USER" \
 #    --role="roles/serviceusage.serviceUsageAdmin"
 #
@@ -31,7 +31,7 @@ export GOOGLE_PROJECT=$PROJECT_ID_GOV
 
 
 # Activate the required APIs for all the projects
-declare -a PROJECTS=($PROJECT_ID $PROJECT_ID_GOV)
+declare -a PROJECTS=($PROJECT_ID_DATA $PROJECT_ID_GOV)
 for p in "${PROJECTS[@]}"
 do
     :
@@ -39,13 +39,13 @@ do
     gcloud config set project $p
     gcloud services enable datalineage.googleapis.com
     gcloud services enable cloudkms.googleapis.com
-    gcloud services enable resourcesettings.googleapis.com 
-    gcloud services enable artifactregistry.googleapis.com 
+    gcloud services enable resourcesettings.googleapis.com
+    gcloud services enable artifactregistry.googleapis.com
     gcloud services enable cloudbuild.googleapis.com
     gcloud services enable run.googleapis.com
     gcloud services enable dataplex.googleapis.com
     gcloud services enable containerregistry.googleapis.com
-    gcloud services enable dlp.googleapis.com 
+    gcloud services enable dlp.googleapis.com
     gcloud services enable bigquerydatapolicy.googleapis.com
     gcloud services enable cloudfunctions.googleapis.com
     gcloud services enable bigqueryconnection.googleapis.com
@@ -56,7 +56,7 @@ done
 #################################
 # Infrastructure for data project
 #################################
-gcloud config set project $PROJECT_ID
+gcloud config set project $PROJECT_ID_DATA
 
 # Create the storage bucket
 gcloud storage buckets create gs://${GCS_BUCKET_TPCDI} --location ${REGION} # Region is required otherwise it will default to us-central1 location
@@ -70,9 +70,9 @@ gcloud kms keys create ${KMS_KEYNAME} \
     #--protection-level "hsm" #uncomment for HSM
 
 # Trigger SA creation & grant permission to the BQ SA
-bq show --encryption_service_account --project_id=$PROJECT_ID
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
-  --member=serviceAccount:bq-${PROJECT_NUMBER}@bigquery-encryption.iam.gserviceaccount.com \
+bq show --encryption_service_account --project_id=$PROJECT_ID_DATA
+gcloud projects add-iam-policy-binding ${PROJECT_ID_DATA} \
+  --member=serviceAccount:bq-${PROJECT_NUMBER_DATA}@bigquery-encryption.iam.gserviceaccount.com \
   --role=roles/cloudkms.cryptoKeyEncrypterDecrypter
 
 
@@ -90,14 +90,14 @@ gcloud iam service-accounts create tag-creator \
 gcloud iam service-accounts create cloud-run \
     --description="Service account to manage cloud run service" \
     --display-name="Cloud Run SA"
-    
-gcloud config set project $PROJECT_ID
+
+gcloud config set project $PROJECT_ID_DATA
 
 # Grant the CE Data Governance SA access to the Data project
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+gcloud projects add-iam-policy-binding ${PROJECT_ID_DATA} \
   --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \
   --role=roles/bigquery.user
-gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+gcloud projects add-iam-policy-binding ${PROJECT_ID_DATA} \
   --member=serviceAccount:${PROJECT_NUMBER_GOV}-compute@developer.gserviceaccount.com \
   --role=roles/bigquery.dataViewer
 
@@ -111,7 +111,7 @@ curl --request POST \
   --data '{"item":{"value":"google@google.com"}}' \
   --compressed
 
-  gcloud projects add-iam-policy-binding ${PROJECT_ID} \
+  gcloud projects add-iam-policy-binding ${PROJECT_ID_DATA} \
   --member=serviceAccount:service-${PROJECT_NUMBER_GOV}@dlp-api.iam.gserviceaccount.com \
   --role=roles/bigquery.admin
 

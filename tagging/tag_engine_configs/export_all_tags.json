@@ -1,6 +1,6 @@
 {
-    "source_projects": ["PROJECT_ID"],
-	"source_region": "REGION", 
+    "source_projects": ["PROJECT_ID_DATA"],
+	"source_region": "REGION",
 	"target_project": "PROJECT_ID_GOV",
 	"target_dataset": "tag_exports",
 	"target_region": "REGION",

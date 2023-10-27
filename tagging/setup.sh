@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-# This script installs the dependencies and 
+# This script installs the dependencies and
 # then runs the script to create the tag templates.
 
 # Environment variables
@@ -27,14 +27,14 @@ echo -e "1. Create the Data Catalog tag templates"
 
 pushd tag_templates
 pip install -r requirements.txt
-python create_template.py $PROJECT_ID $REGION cdmc_controls.yaml
-python create_template.py $PROJECT_ID $REGION completeness_template.yaml
-python create_template.py $PROJECT_ID $REGION correctness_template.yaml
-python create_template.py $PROJECT_ID $REGION cost_metrics.yaml
-python create_template.py $PROJECT_ID $REGION data_sensitivity.yaml
-python create_template.py $PROJECT_ID $REGION impact_assessment.yaml
-python create_template.py $PROJECT_ID $REGION security_policy.yaml
-python create_template.py $PROJECT_ID $REGION uniqueness_template.yaml
+python create_template.py $PROJECT_ID_DATA $REGION cdmc_controls.yaml
+python create_template.py $PROJECT_ID_DATA $REGION completeness_template.yaml
+python create_template.py $PROJECT_ID_DATA $REGION correctness_template.yaml
+python create_template.py $PROJECT_ID_DATA $REGION cost_metrics.yaml
+python create_template.py $PROJECT_ID_DATA $REGION data_sensitivity.yaml
+python create_template.py $PROJECT_ID_DATA $REGION impact_assessment.yaml
+python create_template.py $PROJECT_ID_DATA $REGION security_policy.yaml
+python create_template.py $PROJECT_ID_DATA $REGION uniqueness_template.yaml
 popd
 
 echo -e "2. Create the policy tag taxonomy"

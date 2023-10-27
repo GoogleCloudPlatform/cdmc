@@ -12,8 +12,8 @@ GCP CDMC Report Engine is a Python flask application, with execution based on re
 - Terraform (see below)
 
 ### Terraform
-Apply the terraform scripts in this folders, specifying the related variables define in Terraform variables template (terraform/terraform.tfvars.template). 
-For convenience you can use the `setup.sh` script in this folder to perform variables substitutions. 
+Apply the terraform scripts in this folders, specifying the related variables define in Terraform variables template (terraform/terraform.tfvars.template).
+For convenience you can use the `setup.sh` script in this folder to perform variables substitutions.
 ```
 cd terraform
 source setup.sh
@@ -39,7 +39,7 @@ The Terraform scripts create:
 ## DEPLOYMENT
 After the execution of the requirements, Report Engine can be deployed in Cloud Run (recommended) or Compute Engine.
 ### Cloud Run (Recommended)
-For convenience, you can use the `deploy_reportengine.sh` script to deploy to cloud run. 
+For convenience, you can use the `deploy_reportengine.sh` script to deploy to cloud run.
 The script will:
  - Create a `resources/config.ini` file using the template as a basis
  - Substitute the required variables in the config file (project-id and region)
@@ -91,14 +91,14 @@ CDMC Report Engine is a Flask web application. The following request parameters 
 
 Sample request format (from local client):
 ```
-curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" -X POST "$ENDPOINT/generate?orgId=$ORGANIZATION_ID&projectId=$PROJECT_ID&topicProjectId=$PROJECT_ID_GOV&topic=cdmc-controls-topic&projectNumber=$PROJECT_NUMBER&controls=020608"
+curl -H "Authorization: Bearer $(gcloud auth print-identity-token)" -X POST "$ENDPOINT/generate?orgId=$ORGANIZATION_ID&projectId=$PROJECT_ID_DATA&topicProjectId=$PROJECT_ID_GOV&topic=cdmc-controls-topic&projectNumber=$PROJECT_NUMBER_DATA&controls=020608"
 ```
 
 ## CONFIGURATION CHANGES
 
 It is recommended that Dataplex Catalog templates, Pub/Sub topics and BigQuery configuration tables keep the original values, in case these values must be adjusted, the requirements/config.ini must be considered.
 
-  
+
 ## Deployments from Secured Data Warehouse project or VPC Service Controls
 
 In case the deployment occurs in a deployment of [Secure Data Warehouse](https://cloud.google.com/architecture/confidential-data-warehouse-blueprint), which uses VPC- Service Controls, or in a self deployed VPC-Service Control environment, consider the following aspects to be considered in the report-engine deployment:
@@ -111,4 +111,4 @@ In case the deployment occurs in a deployment of [Secure Data Warehouse](https:/
 In case of Cloud Run deployment, potential Access Level modifications can be necessary, allowing deployments components, such as Cloud Build default Service Account or Pub/Sub default Service Account to BigQuery. This configurations change might be analyzed according to VPC-SC topology and definitions.
 
 
-  
+

@@ -28,8 +28,8 @@
             "query_expression": "select min(datetime(ia_last_modified_date)) from PROJECT_ID_GOV.impact_assessment.asset_ia_details where asset_name = '$project.$dataset.$table'"
         }
     ],
-    "included_tables_uris": "bigquery/project/PROJECT_ID/dataset/finwire/*",
+    "included_tables_uris": "bigquery/project/PROJECT_ID_DATA/dataset/finwire/*",
     "refresh_mode": "ON_DEMAND",
     "tag_history": true,
-    "tag_stream": false  
+    "tag_stream": false
 }

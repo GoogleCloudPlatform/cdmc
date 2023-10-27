@@ -15,7 +15,7 @@
 
 ## This script performs the basic setup tag engine
 
-export TAG_ENGINE_PROJECT=$PROJECT_ID_GOV 
+export TAG_ENGINE_PROJECT=$PROJECT_ID_GOV
 gcloud config set project $TAG_ENGINE_PROJECT
 gcloud config set run/region $REGION
 
@@ -41,7 +41,7 @@ curl -X POST $TAG_ENGINE_URL/configure_tag_history \
 # Replace REGION & PROJECT with environment variables in all json template files - REVERSED AT END OF SCRIPT
 python3 ../support_functions/replace_string.py tag_engine_configs REGION $REGION .json
 python3 ../support_functions/replace_string.py tag_engine_configs PROJECT_ID_GOV $PROJECT_ID_GOV .json
-python3 ../support_functions/replace_string.py tag_engine_configs PROJECT_ID $PROJECT_ID .json
+python3 ../support_functions/replace_string.py tag_engine_configs PROJECT_ID_DATA $PROJECT_ID_DATA .json
 
 # crm
 curl -X POST $TAG_ENGINE_URL/create_sensitive_column_config \
@@ -120,7 +120,7 @@ curl -X POST $TAG_ENGINE_URL/get_job_status -d '{"job_uuid":"e621935ceaab11ed97a
 
 
 ##########################################
-# cdmc controls table tags 
+# cdmc controls table tags
 ##########################################
 
 # crm
@@ -594,7 +594,7 @@ curl -X POST $TAG_ENGINE_URL/get_job_status -d '{"job_uuid":"8ba17c6cec4011ed9ef
 	-H "oauth_token: $OAUTH_TOKEN"
 
 ###################################################
-# export all data catalog tags to bq for reporting 
+# export all data catalog tags to bq for reporting
 ###################################################
 
 curl -X POST $TAG_ENGINE_URL/create_export_config \
@@ -612,7 +612,7 @@ curl -X POST $TAG_ENGINE_URL/get_job_status -d '{"job_uuid":"52507dccec4111ed881
 	-H "oauth_token: $OAUTH_TOKEN"
 
 ###################################################
-# cleanup 
+# cleanup
 ###################################################
 curl -i -X POST $TAG_ENGINE_URL/purge_inactive_configs \
   -d '{"config_type":"ALL"}' \
@@ -622,4 +622,4 @@ curl -i -X POST $TAG_ENGINE_URL/purge_inactive_configs \
 # Reverse replace REGION & PROJECT with environment variables
 python3 ../support_functions/replace_string.py tag_engine_configs $REGION REGION .json
 python3 ../support_functions/replace_string.py tag_engine_configs $PROJECT_ID_GOV PROJECT_ID_GOV .json
-python3 ../support_functions/replace_string.py tag_engine_configs $PROJECT_ID PROJECT_ID .json
+python3 ../support_functions/replace_string.py tag_engine_configs $PROJECT_ID_DATA PROJECT_ID_DATA .json

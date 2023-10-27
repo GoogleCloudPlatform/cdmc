@@ -13,10 +13,10 @@
     "dlp_dataset": "bigquery/project/PROJECT_ID_GOV/dataset/sales_dlp",
 	"infotype_selection_table": "bigquery/project/PROJECT_ID_GOV/dataset/data_classification/infotype_selection",
 	"infotype_classification_table": "bigquery/project/PROJECT_ID_GOV/dataset/data_classification/infotype_classification",
-	"included_tables_uris": "bigquery/project/PROJECT_ID/dataset/sales/*",
+	"included_tables_uris": "bigquery/project/PROJECT_ID_DATA/dataset/sales/*",
     "create_policy_tags": true,
     "taxonomy_id": "projects/PROJECT_ID_GOV/locations/REGION/taxonomies/730755508715999596",
     "refresh_mode": "ON_DEMAND",
     "tag_history": true,
-    "tag_stream": false   
+    "tag_stream": false
 }

@@ -9,8 +9,8 @@
         }
     ],
     "included_columns_query": "select distinct SUBSTR(asset_name, INSTR(asset_name, '/', -1)+1) from PROJECT_ID_GOV.tag_history_logs.data_sensitivity where CONTAINS_SUBSTR(asset_name, '$project/dataset/$dataset/table/$table')",
-	"included_tables_uris": "bigquery/project/PROJECT_ID/dataset/crm/*",
+	"included_tables_uris": "bigquery/project/PROJECT_ID_DATA/dataset/crm/*",
     "refresh_mode": "ON_DEMAND",
     "tag_history": true,
-    "tag_stream": false  
+    "tag_stream": false
 }

@@ -17,7 +17,7 @@ entities:
     source_database: BIGQUERY
     table_name: Prospect
     dataset_name: sales
-    project_name: PROJECT_ID
+    project_name: PROJECT_ID_DATA
     columns:
       LAST_NAME:
         name: lastName
