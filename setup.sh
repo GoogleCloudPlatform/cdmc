@@ -19,6 +19,17 @@
 source environment-variables.sh
 export GOOGLE_PROJECT=$PROJECT_ID_GOV
 
+## Ensure Billing is enable in all projects
+declare -a PROJECTS=($PROJECT_ID_DATA $PROJECT_ID_GOV)
+for p in "${PROJECTS[@]}"
+do
+    :
+    p_HAS_BILLING="$(gcloud beta billing projects describe $p | grep billingEnabled | cut -f2 -d' ')"
+    if [[ $p_HAS_BILLING == "false" ]]; then
+        echo "\n\nERROR: Billing account for project '$p' is not found. Billing must be enabled to run script."
+        return 1
+    fi
+done
 
 ## Grant the service account used to run the setup the `serviceusage.services.enable` role.
 #gcloud projects add-iam-policy-binding $PROJECT_ID_DATA \
@@ -31,7 +42,6 @@ export GOOGLE_PROJECT=$PROJECT_ID_GOV
 
 
 # Activate the required APIs for all the projects
-declare -a PROJECTS=($PROJECT_ID_DATA $PROJECT_ID_GOV)
 for p in "${PROJECTS[@]}"
 do
     :
@@ -59,7 +69,7 @@ done
 gcloud config set project $PROJECT_ID_DATA
 
 # Create the storage bucket
-gcloud storage buckets create gs://${GCS_BUCKET_TPCDI} --location ${REGION} # Region is required otherwise it will default to us-central1 location
+gcloud alpha storage buckets create gs://${GCS_BUCKET_TPCDI} --location ${REGION} # Region is required otherwise it will default to us-central1 location
 
 # Create the KMS
 gcloud kms keyrings create ${KMS_KEYRING} --location ${REGION}
