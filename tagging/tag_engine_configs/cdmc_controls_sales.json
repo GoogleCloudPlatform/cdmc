@@ -60,8 +60,8 @@
             "query_expression": "select current_datetime"
 		}
     ],
-    "included_tables_uris": "bigquery/project/PROJECT_ID/dataset/sales/*",
+    "included_tables_uris": "bigquery/project/PROJECT_ID_DATA/dataset/sales/*",
     "refresh_mode": "ON_DEMAND",
     "tag_history": true,
-    "tag_stream": false  
+    "tag_stream": false
 }

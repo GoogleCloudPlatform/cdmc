@@ -23,11 +23,11 @@ popd
 
 # [OPTIONAL] Run the container locally mapping the folder with the ADC token
 # Note you have to provide parameters as follows
-#  1: project_id where the data resides
-#  2: project_id of the data governance, where DQ runs 
-#  3: region where DQ runs 
+#  1: PROJECT_ID_DATA where the data resides
+#  2: project_id_gov of the data governance, where DQ runs
+#  3: region where DQ runs
 #  4: dataset used to store the DQ results
-# docker run -v $HOME/.config/gcloud:/root/.config/gcloud cloud-dq $PROJECT_ID $PROJECT_ID_GOV $REGION $CLOUDDQ_BIGQUERY_DATASET
+# docker run -v $HOME/.config/gcloud:/root/.config/gcloud cloud-dq $PROJECT_ID_DATA $PROJECT_ID_GOV $REGION $CLOUDDQ_BIGQUERY_DATASET
 
 # Submit to the registry on GCP and deploy to cloud run
 
@@ -39,7 +39,7 @@ gcloud builds submit --tag gcr.io/$PROJECT_ID_GOV/cdmc-dq .
 
 # Create a job in Cloud Run. Note parameters have to be passed here
 gcloud run jobs delete cloud-dq --region $REGION --quiet
-gcloud run jobs create cloud-dq --image gcr.io/$PROJECT_ID_GOV/cdmc-dq --region $REGION --args $PROJECT_ID,$PROJECT_ID_GOV,$REGION,$CLOUDDQ_BIGQUERY_DATASET
+gcloud run jobs create cloud-dq --image gcr.io/$PROJECT_ID_GOV/cdmc-dq --region $REGION --args $PROJECT_ID_DATA,$PROJECT_ID_GOV,$REGION,$CLOUDDQ_BIGQUERY_DATASET
 
 # Execute on cloud run
 gcloud run jobs execute cloud-dq --region $REGION

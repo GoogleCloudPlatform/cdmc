@@ -26,8 +26,8 @@ import subprocess as sp
 
 # Read the config from the env variables
 PROJECT_ID_GOV = os.getenv('PROJECT_ID_GOV')
-PROJECT_ID = os.getenv('PROJECT_ID')
-PROJECT_NUMBER = os.getenv('PROJECT_NUMBER')
+PROJECT_ID_DATA = os.getenv('PROJECT_ID_DATA')
+PROJECT_NUMBER_DATA = os.getenv('PROJECT_NUMBER_DATA')
 REGION = os.getenv('REGION')
 GCS_BUCKET_TPCDI = os.getenv('GCS_BUCKET_TPCDI')
 
@@ -216,7 +216,7 @@ class LineageManager:
 
 
 if __name__ == '__main__':
-    project_number = PROJECT_NUMBER  # project number for solution-workspace project
+    project_number = PROJECT_NUMBER_DATA  # project number for solution-workspace project
     storage_region = REGION
     process_name = 'LineageManagerTest'
     origin_name = 'Origin'

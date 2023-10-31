@@ -11,7 +11,7 @@ bq query --use_legacy_sql=false < sql/create_function.sql
 sed -i '' "s/$PROJECT_ID_GOV/PROJECT_ID_GOV/g" sql/create_function.sql
 sed -i '' "s/$REGION/REGION/g" sql/create_function.sql
 
-gcloud projects add-iam-policy-binding $PROJECT_NUMBER \
+gcloud projects add-iam-policy-binding $PROJECT_NUMBER_DATA \
 	--member=serviceAccount:$TAG_CREATOR_SA \
 	--role='roles/orgpolicy.policyViewer'
 

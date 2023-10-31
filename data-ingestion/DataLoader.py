@@ -26,12 +26,12 @@ class DataLoader():
      * BIGQUERY_REGION: The BQ region where the data is loaded
      * GCS_PATH_PREFIX: A GCS bucket address
      * KMS_KEY: a valid KMS key to encrypt the data
-    
+
     """
     def __init__(self):
         # Read main config from environment variables
-        self.BIGQUERY_PROJECT = os.getenv('PROJECT_ID')
-        self.BIGQUERY_PROJECT_NUMBER = os.getenv('PROJECT_NUMBER')
+        self.BIGQUERY_PROJECT = os.getenv('PROJECT_ID_DATA')
+        self.BIGQUERY_PROJECT_NUMBER = os.getenv('PROJECT_NUMBER_DATA')
         self.BIGQUERY_REGION = os.getenv('REGION')
         self.GCS_PATH_PREFIX = f"gs://{os.getenv('GCS_BUCKET_TPCDI')}/staging"
         self.KMS_KEY = os.getenv('KMS_KEY')
@@ -40,16 +40,16 @@ class DataLoader():
         self.TPCDI_URL = 'https://www.tpc.org'
 
         # Initialise the BQ client
-        self.bq_client = bigquery.Client(project=self.BIGQUERY_PROJECT, 
+        self.bq_client = bigquery.Client(project=self.BIGQUERY_PROJECT,
                                          location=self.BIGQUERY_REGION)
 
     def delete_create_dataset(self, dataset_name:str):
         try:
             self.bq_client.delete_dataset(
-                dataset_name, 
-                delete_contents=True, 
+                dataset_name,
+                delete_contents=True,
                 not_found_ok=True)
-            self.bq_client.create_dataset(dataset_name, 
+            self.bq_client.create_dataset(dataset_name,
                                           exists_ok=False)
         except Exception as e:
             print('Error occurred during delete_create_dataset:', e)
@@ -74,8 +74,8 @@ class DataLoader():
                 kms_key_name=self.KMS_KEY)
         )
 
-        load_job = self.bq_client.load_table_from_uri(uri, 
-                                                      table_id, 
+        load_job = self.bq_client.load_table_from_uri(uri,
+                                                      table_id,
                                                       job_config=job_config)
         job_id = load_job.job_id
         load_job.result()
@@ -104,7 +104,7 @@ class DataLoader():
             origin_name (str): the origin of the data to store in the lineage
             process_name (str, optional): Name of the process that loaded the data. Defaults to "Data Download".
             job_id (str, optional): JobID for the data load. Defaults to 'Data Download'.
-            field_delimiter (str, optional): the field delimiter to use 
+            field_delimiter (str, optional): the field delimiter to use
         """
         start_time = datetime.datetime.now().replace(
             tzinfo=datetime.timezone.utc).isoformat()
@@ -116,14 +116,14 @@ class DataLoader():
         end_time = datetime.datetime.now().replace(
             tzinfo=datetime.timezone.utc).isoformat()
 
-        lmd = lineage.LineageManager(project_number=self.BIGQUERY_PROJECT_NUMBER, 
-                                     storage_region=self.BIGQUERY_REGION, 
-                                     process_name=process_name, 
-                                     origin_name=origin_name, 
-                                     job_id=job_id, 
-                                     start_time=start_time, 
+        lmd = lineage.LineageManager(project_number=self.BIGQUERY_PROJECT_NUMBER,
+                                     storage_region=self.BIGQUERY_REGION,
+                                     process_name=process_name,
+                                     origin_name=origin_name,
+                                     job_id=job_id,
+                                     start_time=start_time,
                                      end_time=end_time,
-                                     source=self.TPCDI_URL, 
+                                     source=self.TPCDI_URL,
                                      target=uri)
         lmd.create_lineage()
         lmd = None

@@ -27,7 +27,7 @@ gcloud functions deploy get_bytes_transferred \
 --ingress-settings internal-and-gclb \
 --entry-point event_handler \
 --source ./function \
---set-env-vars REGION=$REGION,PROJECT_ID=$PROJECT_ID
+--set-env-vars REGION=$REGION,PROJECT_ID_DATA=$PROJECT_ID_DATA
 
 source ./create_remote_function.sh
 popd
@@ -41,7 +41,7 @@ gcloud functions deploy get_location_policy \
 --ingress-settings internal-and-gclb \
 --entry-point event_handler \
 --source ./function \
---set-env-vars REGION=$REGION,PROJECT_ID=$PROJECT_ID
+--set-env-vars REGION=$REGION,PROJECT_ID_DATA=$PROJECT_ID_DATA
 
 source ./create_remote_function.sh
 popd
@@ -55,7 +55,7 @@ gcloud functions deploy get_masking_rule \
 --ingress-settings internal-and-gclb \
 --entry-point event_handler \
 --source ./function \
---set-env-vars REGION=$REGION,PROJECT_ID=$PROJECT_ID
+--set-env-vars REGION=$REGION,PROJECT_ID_DATA=$PROJECT_ID_DATA
 
 source ./create_remote_function.sh
 popd
@@ -69,7 +69,7 @@ gcloud functions deploy get_table_encryption_method \
 --ingress-settings internal-and-gclb \
 --entry-point event_handler \
 --source ./function \
---set-env-vars REGION=$REGION,PROJECT_ID=$PROJECT_ID
+--set-env-vars REGION=$REGION,PROJECT_ID_DATA=$PROJECT_ID_DATA
 
 source ./create_remote_function.sh
 popd
@@ -83,7 +83,7 @@ gcloud functions deploy get_ultimate_source \
 --ingress-settings internal-and-gclb \
 --entry-point process_request \
 --source ./function \
---set-env-vars REGION=$REGION,PROJECT_ID=$PROJECT_ID
+--set-env-vars REGION=$REGION,PROJECT_ID_DATA=$PROJECT_ID_DATA
 
 source ./create_remote_function.sh
 popd

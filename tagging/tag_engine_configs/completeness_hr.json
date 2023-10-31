@@ -33,8 +33,8 @@
         }
     ],
     "included_columns_query": "select distinct column_id from PROJECT_ID_GOV.cloud_dq.dq_summary where dimension = 'COMPLETENESS' and ends_with(table_id, '$table')",
-	"included_tables_uris": "bigquery/project/PROJECT_ID/dataset/hr/*",
+	"included_tables_uris": "bigquery/project/PROJECT_ID_DATA/dataset/hr/*",
     "refresh_mode": "ON_DEMAND",
     "tag_history": true,
-    "tag_stream": false  
+    "tag_stream": false
 }

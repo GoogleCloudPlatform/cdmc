@@ -28,8 +28,8 @@
             "query_expression": "select `PROJECT_ID_GOV`.remote_functions.get_bytes_transferred('cost', '$project', '$dataset', '$table')"
         }
     ],
-    "included_tables_uris": "bigquery/project/PROJECT_ID/dataset/finwire/*",
+    "included_tables_uris": "bigquery/project/PROJECT_ID_DATA/dataset/finwire/*",
     "refresh_mode": "ON_DEMAND",
     "tag_history": true,
-    "tag_stream": false  
+    "tag_stream": false
 }

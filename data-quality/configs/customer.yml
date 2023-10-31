@@ -17,7 +17,7 @@ entities:
     source_database: BIGQUERY
     table_name: Customer
     dataset_name: oltp
-    project_name: PROJECT_ID
+    project_name: PROJECT_ID_DATA
     columns:
       CDC_FLAG:
         name: cdc_flag

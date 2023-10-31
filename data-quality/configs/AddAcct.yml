@@ -17,7 +17,7 @@ entities:
     source_database: BIGQUERY
     table_name: AddAcct
     dataset_name: crm
-    project_name: PROJECT_ID
+    project_name: PROJECT_ID_DATA
     columns:
       C_ID:
         name: c_id

@@ -14,7 +14,7 @@
 # limitations under the License.
 
 # Passed parameters
-export PROJECT_ID=$1
+export PROJECT_ID_DATA=$1
 export PROJECT_ID_GOV=$2
 export REGION=$3
 export DATASET=$4
@@ -33,7 +33,7 @@ if [ -z "$4" ]; then
 fi
 
 echo -e "\n\nRunning with following values:"
-echo -e "\tPROJECT_ID       : $PROJECT_ID"
+echo -e "\tPROJECT_ID_DATA       : $PROJECT_ID_DATA"
 echo -e "\tPROJECT_ID_GOV   : $PROJECT_ID_GOV"
 echo -e "\tREGION           : $REGION"
 echo -e "\tDATASET          : $DATASET"
@@ -43,7 +43,7 @@ declare -a FILES="(AddAcct common customer employee finwire industry NewCust Pro
 for f in "${FILES[@]}"
 do
     :
-    sed -i "s/PROJECT_ID/$PROJECT_ID/g" configs/${f}.yml
+    sed -i "s/PROJECT_ID_DATA/$PROJECT_ID_DATA/g" configs/${f}.yml
 done
 
 ## Call Data Quality
@@ -59,6 +59,5 @@ python3 clouddq_executable.zip \
 for f in "${FILES[@]}"
 do
     :
-    sed -i "s/$PROJECT_ID/PROJECT_ID/g" configs/${f}.yml
+    sed -i "s/$PROJECT_ID_DATA/PROJECT_ID_DATA/g" configs/${f}.yml
 done
- 

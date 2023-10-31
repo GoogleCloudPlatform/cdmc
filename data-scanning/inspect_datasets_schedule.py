@@ -23,11 +23,11 @@ import requests
 
 # Get project values from environment variables
 
-region = os.getenv('REGION')                                         
-inspect_project = os.getenv('PROJECT_ID')                        
-inspect_datasets = ['crm', 'hr', 'oltp','reference', 'sales']   
+region = os.getenv('REGION')
+inspect_project = os.getenv('PROJECT_ID_DATA')
+inspect_datasets = ['crm', 'hr', 'oltp','reference', 'sales']
 
-result_project = os.getenv('PROJECT_ID_GOV')                    
+result_project = os.getenv('PROJECT_ID_GOV')
 result_datasets = ['crm_dlp','hr_dlp', 'oltp_dlp','reference_dlp', 'sales_dlp']
 
 bq_client = bigquery.Client(project=inspect_project)
@@ -50,17 +50,17 @@ def get_access_token():
     return output.decode('utf-8').strip()
 
 def inspect(scan_period_days):
-    
+
     token = get_access_token()
 
     for index, inspect_dataset in enumerate(inspect_datasets):
-        tables = bq_client.list_tables(inspect_project + '.' + inspect_dataset) 
+        tables = bq_client.list_tables(inspect_project + '.' + inspect_dataset)
 
         for table in tables:
             print("scanning {}.{}.{}".format(table.project, table.dataset_id, table.table_id))
             start_job(inspect_dataset, table.table_id, result_datasets[index],scan_period_days, token)
 
-def start_job(inspect_dataset, table, result_dataset,scan_period_days, token):    
+def start_job(inspect_dataset, table, result_dataset,scan_period_days, token):
 
     recurrence_period_duration = scan_period_days * 60 * 60 * 24
     if recurrence_period_duration == 0: recurrence_period_duration = 86400 #min value for recurance is 1 day, 0 indicates run immediately
@@ -129,11 +129,11 @@ def start_job(inspect_dataset, table, result_dataset,scan_period_days, token):
                             'table_id': table
                         }
                     }
-                
+
                 },
             },
         ]
-    } 
+    }
 
     schedule = {
         "recurrence_period_duration": {"seconds": recurrence_period_duration}

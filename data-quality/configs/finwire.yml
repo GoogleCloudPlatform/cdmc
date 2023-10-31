@@ -17,54 +17,54 @@ entities:
     source_database: BIGQUERY
     table_name: FINWIRE1994Q4_CMP
     dataset_name: finwire
-    project_name: PROJECT_ID
+    project_name: PROJECT_ID_DATA
     columns:
-      pts: 
+      pts:
         name: pts
         data_type: STRING
-      recType: 
+      recType:
         name: recType
         data_type: STRING
-      companyName: 
+      companyName:
         name: companyName
         data_type: STRING
-      cik: 
+      cik:
         name: cik
         data_type: STRING
-      status: 
+      status:
         name: status
         data_type: STRING
-      industryID: 
+      industryID:
         name: industryID
         data_type: STRING
-      spRating: 
+      spRating:
         name: spRating
         data_type: STRING
-      foundingDate: 
+      foundingDate:
         name: foundingDate
         data_type: DATE
-      addr_line1: 
+      addr_line1:
         name: addr_line1
         data_type: STRING
-      addr_line2: 
+      addr_line2:
         name: addr_line2
         data_type: STRING
-      postalCode: 
+      postalCode:
         name: postalCode
         data_type: STRING
-      city: 
+      city:
         name: city
         data_type: STRING
-      stateProvince: 
+      stateProvince:
         name: stateProvince
         data_type: STRING
-      country: 
+      country:
         name: country
         data_type: STRING
-      ceoName: 
+      ceoName:
         name: ceoName
         data_type: STRING
-      description: 
+      description:
         name: description
         data_type: STRING
 
@@ -74,7 +74,7 @@ rules:
     dimension: consistency
     params:
       custom_sql_expr: |-
-        $column in (select distinct in_id from `PROJECT_ID`.`reference`.`Industry`)
+        $column in (select distinct in_id from `PROJECT_ID_DATA`.`reference`.`Industry`)
 
 rule_bindings:
   FOREIGN_KEY_VALID_INDUSTRY:
