@@ -22,7 +22,7 @@ export REGION="REPLACE WITH YOUR VALUE" # eg: us-central1
 
 # Other GCP variables
 gcloud config set project ${PROJECT_ID}
-export ORGANIZATION_ID="$(gcloud projects get-ancestors $PROJECT_ID | grep -B1 organization | grep ID | cut -f2 -d' ')" #This method works with even when we have folder structure
+export ORGANIZATION_ID="$(gcloud projects get-ancestors $PROJECT_ID | grep -B1 organization | grep ID | cut -f2 -d' ')" #This method works even when we have folder structure
 export GOOGLE_PROJECT=$PROJECT_ID
 
 # Data Load variables
@@ -48,7 +48,7 @@ export AUTHENTICATED_USER="$(gcloud config list account --format 'value(core.acc
 # Tag Engine
 export TAG_ENGINE_PROJECT=$PROJECT_ID_GOV  # GCP project id for running the Tag Engine service
 export TAG_ENGINE_REGION=$REGION     # GCP region for running Tag Engine service
-export BIGQUERY_PROJECT=$PROJECT_ID    # GCP project used by BigQuery data assets, can be equal to TAG_ENGINE_PROJECT. This variable is only used for setting IAM permissions in steps 10 and 11 
+export BIGQUERY_PROJECT=$PROJECT_ID    # GCP project used by BigQuery data assets, can be equal to TAG_ENGINE_PROJECT. This variable is only used for setting IAM permissions in steps 10 and 11
 export BIGQUERY_REGION=$REGION      # GCP region in which data assets in BigQuery are stored, e.g. us-central1
 export CLOUD_RUN_SA="cloud-run@$PROJECT_ID_GOV.iam.gserviceaccount.com"     # email of your Cloud Run service account for running Tag Engine service
 export TAG_CREATOR_SA="tag-creator@$PROJECT_ID_GOV.iam.gserviceaccount.com"   # email of your Tag creator service account for running BQ queries and creating DC tags
@@ -66,8 +66,8 @@ echo -e "\tPROJECT_ID_GOV                    :" $PROJECT_ID_GOV
 echo -e "\tPROJECT_NUMBER                    :" $PROJECT_NUMBER
 echo -e "\tPROJECT_NUMBER_GOV                :" $PROJECT_NUMBER_GOV
 echo -e "\tREGION                            :" $REGION
-           
-echo -e "\n\nData Load:"           
+
+echo -e "\n\nData Load:"
 echo -e "\tGCS_BUCKET_TPCDI                  :" $GCS_BUCKET_TPCDI
 echo -e "\tKMS_KEY                           :" $KMS_KEY
 echo -e "\tKMS_KEYRING                       :" $KMS_KEYRING
